@@ -12,12 +12,25 @@ model Post {
 	title		String
 	content		String?
 	createdAt	DateTime	@default(now())
-	updatedAt 	DateTime
-	userId		Int
+	updatedAt 	DateTime 	@default(now())
 	user 		User 		@relation(fields: [userId], references: [id])
+	userId		Int
+	results  	Result[]
+}
+
+model Result {
+	id 			Int			@default(autoincrement()) @id
+	result 		String
+	user 		User 		@relation(fields: [userId], references: [id])
+	userId		Int
+	post 		Post 		@relation(fields: [postId], references: [id])
+	postId		Int
+
+	@@id([postId, categoryId])
 }
 
 model User {
+	id 			Int 		@default(autoincrement()) @id
 	email		String		@unique
 	username	String		@unique
 	password	String
