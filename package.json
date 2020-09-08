@@ -5,5 +5,8 @@
 			"api",
 			"web"
 		]
+	},
+	"scripts": {
+		"server": "nodemon ./api/index.js"
 	}
 }
