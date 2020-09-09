@@ -1,36 +1,39 @@
-const { GraphQLServer } = require('graphql-yoga')
-const { AuthSchema, AuthResolvers, authenticate } = require('../graphql/auth.sdl.js')
-const sampleItems = [
-	{ name: 'Apple' },
-	{ name: 'Banana' },
-	{ name: 'Orange' },
-	{ name: 'Melon' }
-]
+const express = require('express')
+const { graphqlHTTP } = require('express-graphql')
+const { buildSchema } = require('graphql')
 
-
-const typeDefs = `
+// build a schema
+const schema = buildSchema(`
 	type Query {
-		items: [Item!]!
+		me: User
 	}
 
-	type Item {
-		name: String!
+	type User {
+		id: ID
+		name: String
 	}
-`
+`);
 
-const resolvers = {
-	Query: {
-		items: () => sampleItems,
+const root = {
+	Query_me: (request) => {
+		return request.auth.user
 	},
-}
 
+	User_me: (user) => {
+		return user.getName()
+	}
+};
 
-const server = new GraphQLServer({ 
-	typeDefs, 
-	resolvers, 
-	context: req => ({ ...req }),
-	middlewares: [authenticate]
-})
+const server = express()
 
+// server.use(express.json())
+
+server.use('/graphql', graphqlHTTP({
+	schema: schema,
+	rootValue: root,
+	graphiql: true,
+}));
+
+server.get('/', (req, res) => res.send('Is your server 🏃‍♀️?'))
 
 module.exports = server
