@@ -1,39 +1,19 @@
 const express = require('express')
-const { graphqlHTTP } = require('express-graphql')
-const { buildSchema } = require('graphql')
+const app = express()
+const { prisma } = require('../lib/db.js')
 
-// build a schema
-const schema = buildSchema(`
-	type Query {
-		me: User
-	}
+const authRoutes = require('../services/auth/routes')
 
-	type User {
-		id: ID
-		name: String
-	}
-`);
+app.use(express.json())
 
-const root = {
-	Query_me: (request) => {
-		return request.auth.user
-	},
+app.use('/api/auth', authRoutes)
 
-	User_me: (user) => {
-		return user.getName()
-	}
-};
+app.get('/api/users', async function (req, res) {
+	const users = await prisma.user.findMany()
+	console.log(users)
+	res.json({ message: 'ok!' })
+})
 
-const server = express()
+app.get('/', (req, res) => res.send('Is your server 🏃‍♀️?'))
 
-// server.use(express.json())
-
-server.use('/graphql', graphqlHTTP({
-	schema: schema,
-	rootValue: root,
-	graphiql: true,
-}));
-
-server.get('/', (req, res) => res.send('Is your server 🏃‍♀️?'))
-
-module.exports = server
+module.exports = app
