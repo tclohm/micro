@@ -36,6 +36,25 @@ router.post('/signup', validate('signup'), (req, res) => {
 	})
 })
 
+
+router.post('/signin', validate('signin'), async (req, res) => {
+	const { auth, password } = req.body
+	const user = await prisma.user.findMany({
+		where: {
+			OR: [
+					{
+						email: auth,
+					},
+
+					{
+						username: auth,
+					}
+			]
+		}
+	})
+	
+})
+
 function generateToken(user) {
 	const payload = {
 		subject: user.id,

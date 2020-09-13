@@ -6,9 +6,9 @@ const requiredFields = {
 		'password'
 	],
 	signin: [
-		'username' || 'email',
+		'auth',
 		'password'
-	]
+	],
 }
 
 function anythingMissingFrom(requestBody, endpoint) {
