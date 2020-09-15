@@ -25,6 +25,191 @@
     },
     {
       "tag": "CreateModel",
+      "model": "Cheers"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Cheers",
+      "field": "id",
+      "type": "Int",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Cheers",
+          "field": "id"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Cheers",
+          "field": "id"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "autoincrement()"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Cheers",
+          "field": "id"
+        },
+        "directive": "id"
+      }
+    },
+    {
+      "tag": "CreateField",
+      "model": "Cheers",
+      "field": "userId",
+      "type": "Int",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Cheers",
+      "field": "userResultId",
+      "type": "Int",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Cheers",
+      "field": "cheered",
+      "type": "Boolean",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Cheers",
+          "field": "cheered"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Cheers",
+          "field": "cheered"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "false"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Cheers",
+      "field": "user",
+      "type": "User",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Cheers",
+          "field": "user"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Cheers",
+          "field": "user"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[userId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Cheers",
+          "field": "user"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Cheers",
+      "field": "result",
+      "type": "UserResult",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Cheers",
+          "field": "result"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Cheers",
+          "field": "result"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[userResultId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Cheers",
+          "field": "result"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateModel",
       "model": "Post"
     },
     {
@@ -87,38 +272,6 @@
     {
       "tag": "CreateField",
       "model": "Post",
-      "field": "createdAt",
-      "type": "DateTime",
-      "arity": "Optional"
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "Post",
-          "field": "createdAt"
-        },
-        "directive": "default"
-      }
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "Post",
-          "field": "createdAt"
-        },
-        "directive": "default"
-      },
-      "argument": "",
-      "value": "dbgenerated()"
-    },
-    {
-      "tag": "CreateField",
-      "model": "Post",
       "field": "edited",
       "type": "Boolean",
       "arity": "Optional"
@@ -151,226 +304,20 @@
     {
       "tag": "CreateField",
       "model": "Post",
-      "field": "authorId",
-      "type": "Int",
-      "arity": "Optional"
-    },
-    {
-      "tag": "CreateField",
-      "model": "Post",
-      "field": "author",
-      "type": "User",
-      "arity": "Optional"
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "Post",
-          "field": "author"
-        },
-        "directive": "relation"
-      }
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "Post",
-          "field": "author"
-        },
-        "directive": "relation"
-      },
-      "argument": "fields",
-      "value": "[authorId]"
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "Post",
-          "field": "author"
-        },
-        "directive": "relation"
-      },
-      "argument": "references",
-      "value": "[id]"
-    },
-    {
-      "tag": "CreateField",
-      "model": "Post",
-      "field": "postUserResult",
-      "type": "PostUserResult",
-      "arity": "List"
-    },
-    {
-      "tag": "CreateModel",
-      "model": "PostUserResult"
-    },
-    {
-      "tag": "CreateField",
-      "model": "PostUserResult",
-      "field": "id",
-      "type": "Int",
-      "arity": "Required"
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "PostUserResult",
-          "field": "id"
-        },
-        "directive": "default"
-      }
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "PostUserResult",
-          "field": "id"
-        },
-        "directive": "default"
-      },
-      "argument": "",
-      "value": "autoincrement()"
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "PostUserResult",
-          "field": "id"
-        },
-        "directive": "id"
-      }
-    },
-    {
-      "tag": "CreateField",
-      "model": "PostUserResult",
-      "field": "postId",
-      "type": "Int",
-      "arity": "Optional"
-    },
-    {
-      "tag": "CreateField",
-      "model": "PostUserResult",
-      "field": "resultId",
-      "type": "Int",
-      "arity": "Optional"
-    },
-    {
-      "tag": "CreateField",
-      "model": "PostUserResult",
       "field": "userId",
       "type": "Int",
       "arity": "Optional"
     },
     {
       "tag": "CreateField",
-      "model": "PostUserResult",
-      "field": "post",
-      "type": "Post",
+      "model": "Post",
+      "field": "createdAt",
+      "type": "DateTime",
       "arity": "Optional"
     },
     {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "PostUserResult",
-          "field": "post"
-        },
-        "directive": "relation"
-      }
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "PostUserResult",
-          "field": "post"
-        },
-        "directive": "relation"
-      },
-      "argument": "fields",
-      "value": "[postId]"
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "PostUserResult",
-          "field": "post"
-        },
-        "directive": "relation"
-      },
-      "argument": "references",
-      "value": "[id]"
-    },
-    {
       "tag": "CreateField",
-      "model": "PostUserResult",
-      "field": "result",
-      "type": "Result",
-      "arity": "Optional"
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "PostUserResult",
-          "field": "result"
-        },
-        "directive": "relation"
-      }
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "PostUserResult",
-          "field": "result"
-        },
-        "directive": "relation"
-      },
-      "argument": "fields",
-      "value": "[resultId]"
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "PostUserResult",
-          "field": "result"
-        },
-        "directive": "relation"
-      },
-      "argument": "references",
-      "value": "[id]"
-    },
-    {
-      "tag": "CreateField",
-      "model": "PostUserResult",
+      "model": "Post",
       "field": "user",
       "type": "User",
       "arity": "Optional"
@@ -380,7 +327,7 @@
       "location": {
         "path": {
           "tag": "Field",
-          "model": "PostUserResult",
+          "model": "Post",
           "field": "user"
         },
         "directive": "relation"
@@ -392,7 +339,7 @@
         "tag": "Directive",
         "path": {
           "tag": "Field",
-          "model": "PostUserResult",
+          "model": "Post",
           "field": "user"
         },
         "directive": "relation"
@@ -406,7 +353,7 @@
         "tag": "Directive",
         "path": {
           "tag": "Field",
-          "model": "PostUserResult",
+          "model": "Post",
           "field": "user"
         },
         "directive": "relation"
@@ -415,20 +362,11 @@
       "value": "[id]"
     },
     {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Model",
-          "model": "PostUserResult",
-          "arguments": [
-            {
-              "name": "",
-              "value": "[postId, resultId, userId]"
-            }
-          ]
-        },
-        "directive": "unique"
-      }
+      "tag": "CreateField",
+      "model": "Post",
+      "field": "results",
+      "type": "UserResult",
+      "arity": "List"
     },
     {
       "tag": "CreateModel",
@@ -560,92 +498,6 @@
     },
     {
       "tag": "CreateModel",
-      "model": "Result"
-    },
-    {
-      "tag": "CreateField",
-      "model": "Result",
-      "field": "id",
-      "type": "Int",
-      "arity": "Required"
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "Result",
-          "field": "id"
-        },
-        "directive": "default"
-      }
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "Result",
-          "field": "id"
-        },
-        "directive": "default"
-      },
-      "argument": "",
-      "value": "autoincrement()"
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "Result",
-          "field": "id"
-        },
-        "directive": "id"
-      }
-    },
-    {
-      "tag": "CreateField",
-      "model": "Result",
-      "field": "failed",
-      "type": "Boolean",
-      "arity": "Optional"
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "Result",
-          "field": "failed"
-        },
-        "directive": "default"
-      }
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "Result",
-          "field": "failed"
-        },
-        "directive": "default"
-      },
-      "argument": "",
-      "value": "true"
-    },
-    {
-      "tag": "CreateField",
-      "model": "Result",
-      "field": "postUserResult",
-      "type": "PostUserResult",
-      "arity": "List"
-    },
-    {
-      "tag": "CreateModel",
       "model": "User"
     },
     {
@@ -744,6 +596,13 @@
     {
       "tag": "CreateField",
       "model": "User",
+      "field": "cheers",
+      "type": "Cheers",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "User",
       "field": "posts",
       "type": "Post",
       "arity": "List"
@@ -751,15 +610,207 @@
     {
       "tag": "CreateField",
       "model": "User",
-      "field": "postUserResults",
-      "type": "PostUserResult",
+      "field": "profile",
+      "type": "Profile",
       "arity": "List"
     },
     {
       "tag": "CreateField",
       "model": "User",
-      "field": "profile",
-      "type": "Profile",
+      "field": "results",
+      "type": "UserResult",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateModel",
+      "model": "UserResult"
+    },
+    {
+      "tag": "CreateField",
+      "model": "UserResult",
+      "field": "id",
+      "type": "Int",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "UserResult",
+          "field": "id"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "UserResult",
+          "field": "id"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "autoincrement()"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "UserResult",
+          "field": "id"
+        },
+        "directive": "id"
+      }
+    },
+    {
+      "tag": "CreateField",
+      "model": "UserResult",
+      "field": "failed",
+      "type": "Boolean",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "UserResult",
+          "field": "failed"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "UserResult",
+          "field": "failed"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "true"
+    },
+    {
+      "tag": "CreateField",
+      "model": "UserResult",
+      "field": "userId",
+      "type": "Int",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "UserResult",
+      "field": "postId",
+      "type": "Int",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "UserResult",
+      "field": "post",
+      "type": "Post",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "UserResult",
+          "field": "post"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "UserResult",
+          "field": "post"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[postId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "UserResult",
+          "field": "post"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "UserResult",
+      "field": "user",
+      "type": "User",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "UserResult",
+          "field": "user"
+        },
+        "directive": "relation"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "UserResult",
+          "field": "user"
+        },
+        "directive": "relation"
+      },
+      "argument": "fields",
+      "value": "[userId]"
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "UserResult",
+          "field": "user"
+        },
+        "directive": "relation"
+      },
+      "argument": "references",
+      "value": "[id]"
+    },
+    {
+      "tag": "CreateField",
+      "model": "UserResult",
+      "field": "cheers",
+      "type": "Cheers",
       "arity": "List"
     }
   ]
