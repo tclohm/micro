@@ -25,19 +25,27 @@ const resolvers = {
 
 	Mutation: {
 		signupUser: (parent, args, ctx=Context) => {
+			const b = (args.data.profile.bio) ? ars.data.profile.bio : null
+			const th = (args.data.profile.twitterHandle) ? ars.data.profile.twitterHandle : null
+			const gh = (args.data.profile.githubHandle) ? ars.data.profile.githubHandle : null
+			const ggh = (args.data.profile.googleHandle) ? ars.data.profile.googleHandle : null
 			return ctx.prisma.user.create({
-				email: args.data.email,
-				username: args.data.username,
-				password: args.data.password,
-				profile: {
-					create: {
-						bio: 'hello world',
-						twitterHandle: '',
-						githubHandle: '',
-						googleHandle: '',
+				data: {
+					email: args.data.email,
+					username: args.data.username,
+					name: args.data.name,
+					password: args.data.password,
+					profile: {
+						create: {
+							bio: b,
+							twitterHandle: th,
+							githubHandle: gh,
+							googleHandle: ggh
+						}
 					}
 				}
 			})
+			
 		},
 
 		signinUser: (parent, args, ctx=Context) => {

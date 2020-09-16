@@ -46,20 +46,14 @@ const typeDefs = gql`
 		password: String
 		profile: ProfileCreateInput
 	}
-	
+
 	input UserInput {
 		email: String
 		username: String
 		password: String
 	}
 
-	input ProfileCreateWithoutUserInput {
-		id: 			ID
-		bio: 			String
-		twitterHandle: 	String
-		googleHandle: 	String
-		githubHandle: 	String
-	}
+	
 
 	input ProfileCreateInput {
 		id: 			ID
