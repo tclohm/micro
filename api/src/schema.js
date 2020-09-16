@@ -1,25 +1,9 @@
 const { gql } = require('apollo-server-express')
+const { makeExecutableSchema } = require('graphql-tools')
 
-export default gql`
+const { resolvers } = require('./resolvers')
 
-	type Cheer {
-		id: 			ID!
-		userId: 		Int
-		userResultId: 	Int
-		cheered: 		Boolean
-		user: 			User
-		result: 		UserResult
-	}
-
-	type Post {
-		id: 		ID!
-		title: 		String
-		content: 	String
-		edited: 	Boolean
-		createdAt: 	DateTime
-		user: 		User
-		results: 	UserResult[]
-	}
+const typeDefs = gql`
 
 	type Profile {
 		id: 			ID!
@@ -32,43 +16,22 @@ export default gql`
 
 	type User {
 		id: 		ID!
-		email: 		String
+		email: 		String!
 		name: 		String
-		username: 	String
-		posts: 		[Post]
-		profile: 	Profile
-		results: 	[UserResult]
-	}
-
-	type UserResult {
-		id: 		ID!
-		failed: 	Boolean
-		userId: 	Int
-		postId: 	Int
-		post: 		Post
-		user: 		User
-		cheers: 	[Cheers]
+		username: 	String!
+		profile: 	Profile!
 	}
 
 	type Query {
-		feed: [Post!]!
-		filterPosts(searchString: String): [Post!]!
-		post(id: Int!): Post
+		feed: [User!]!
+		filterProfile(searchString: String): [Profile!]!
+		profile(where: ProfileWhereUniqueInput): Profile
 	}
 
 	type Mutation {
-		createPost(content: String, title: String!): Post!
-		deleteOnePost(where: PostWhereUniqueInput!): Post
-		signupUser(data: UserCreateInput!): AuthPayload
-		signinUser(data: UserInput!): AuthPayload
-	}
-
-	input PostWhereUniqueInput {
-		id: ID
-	}
-
-	input ResultWhereUniqueInput {
-		id: ID
+		signupUser(data: UserCreateInput!): User!
+		signinUser(data: UserInput): User!
+		updateProfile(where: ProfileWhereUniqueInput, data: ProfileUpdateInput): Profile!
 	}
 
 	input ProfileWhereUniqueInput {
@@ -81,46 +44,29 @@ export default gql`
 		name: String
 		username: String
 		password: String
-		posts: PostCreateWithoutPostsInput
 		profile: ProfileCreateWithoutProfileInput
 	}
 
-	input PostCreateWithoutPostsInput {
-		connect: [PostWhereUniqueInput!]
-		create: [PostCreateWithoutUserInput!]
-	}
-
-	input PostCreateWithoutUserInput {
-		id: ID
-		title: String!
-		content: String
-		edited: Boolean
-		results: ResultCreateWithoutResultsInput
-	}
-
-	input ResultCreateWithoutResultsInput {
-		connect: [ResultWhereUniqueInput]
-		create: [ResultCreateWithoutUserInput]
-	}
-
-	input ResultCreateWithoutUserInput {
-		id: ID
-		failed: Boolean
-	}
-
 	input ProfileCreateWithoutProfileInput {
-		connect: ProfileWhereUniqueInput
-		create: ProfileCreateWithoutProfileInput
+		connect: ProfileWhereUniqueInput!
+		create: ProfileCreateWithoutUserInput!
 	}
 
 	input UserInput {
-		email: String?
-		username: String?
+		email: String
+		username: String
 		password: String
 	}
 
-	input ProfileCreateWithoutProfileInput {
+	input ProfileCreateWithoutUserInput {
 		id: 			ID
+		bio: 			String
+		twitterHandle: 	String
+		googleHandle: 	String
+		githubHandle: 	String
+	}
+
+	input ProfileUpdateInput {
 		bio: 			String
 		twitterHandle: 	String
 		googleHandle: 	String
@@ -128,11 +74,9 @@ export default gql`
 	}
 `
 
-const resolver = {
-	Query: {
-		feed: (parent, args, ctx) => {
-			return ctx.prisma.post.findMany({
-			})
-		}
-	}
-}
+const schema = makeExecutableSchema({
+	resolvers,
+	typeDefs,
+})
+
+module.exports = { schema }
