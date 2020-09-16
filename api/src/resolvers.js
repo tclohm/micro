@@ -28,7 +28,15 @@ const resolvers = {
 			return ctx.prisma.user.create({
 				email: args.data.email,
 				username: args.data.username,
-				password: args.data.password
+				password: args.data.password,
+				profile: {
+					create: {
+						bio: 'hello world',
+						twitterHandle: '',
+						githubHandle: '',
+						googleHandle: '',
+					}
+				}
 			})
 		},
 

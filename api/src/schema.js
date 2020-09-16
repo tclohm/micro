@@ -46,12 +46,7 @@ const typeDefs = gql`
 		password: String
 		profile: ProfileCreateInput
 	}
-
-	input ProfileCreateWithoutProfileInput {
-		connect: ProfileWhereUniqueInput!
-		create: ProfileCreateWithoutUserInput!
-	}
-
+	
 	input UserInput {
 		email: String
 		username: String

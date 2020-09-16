@@ -10,7 +10,7 @@ datasource db {
 model Profile {
   id            Int     @default(autoincrement()) @id
   bio           String?
-  userId        Int     @default(dbgenerated()) @unique
+  userId        Int     @unique
   twitterHandle String?
   googleHandle  String?
   githubHandle  String?
