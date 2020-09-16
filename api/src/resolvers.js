@@ -25,7 +25,11 @@ const resolvers = {
 
 	Mutation: {
 		signupUser: (parent, args, ctx=Context) => {
-			return ctx.prisma.user.create(args)
+			return ctx.prisma.user.create({
+				email: args.data.email,
+				username: args.data.username,
+				password: args.data.password
+			})
 		},
 
 		signinUser: (parent, args, ctx=Context) => {

@@ -19,7 +19,7 @@ const typeDefs = gql`
 		email: 		String!
 		name: 		String
 		username: 	String!
-		profile: 	Profile!
+		profile: 	Profile
 	}
 
 	type Query {
@@ -44,7 +44,7 @@ const typeDefs = gql`
 		name: String
 		username: String
 		password: String
-		profile: ProfileCreateWithoutProfileInput
+		profile: ProfileCreateInput
 	}
 
 	input ProfileCreateWithoutProfileInput {
@@ -59,6 +59,14 @@ const typeDefs = gql`
 	}
 
 	input ProfileCreateWithoutUserInput {
+		id: 			ID
+		bio: 			String
+		twitterHandle: 	String
+		googleHandle: 	String
+		githubHandle: 	String
+	}
+
+	input ProfileCreateInput {
 		id: 			ID
 		bio: 			String
 		twitterHandle: 	String
