@@ -5,4 +5,6 @@ function createContext() {
 	return { prisma }
 }
 
-module.exports = { createContext }
+const Context = { prisma: PrismaClient }
+
+module.exports = { createContext, Context }
