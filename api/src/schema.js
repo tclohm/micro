@@ -5,6 +5,10 @@ const { resolvers } = require('./resolvers')
 
 const typeDefs = gql`
 
+	interface AuthPayload {
+		token: String!
+	}
+
 	type Profile {
 		id: 			ID!
 		bio: 			String
@@ -22,6 +26,17 @@ const typeDefs = gql`
 		profile: 	Profile
 	}
 
+	type SignUpPayload {
+		userErrors: [UserError!]!
+		account: Account
+	}
+
+	type UserError {
+		message: String!
+		field: [String!]
+		code: UserErrorCode
+	}
+
 	type Query {
 		feed: [User!]!
 		filterProfile(searchString: String): [Profile!]!
@@ -29,8 +44,8 @@ const typeDefs = gql`
 	}
 
 	type Mutation {
-		signupUser(data: UserCreateInput!): User!
-		signinUser(data: UserInput): User!
+		signupUser(data: UserCreateInput!): SignUpPayload!
+		signinUser(data: AccountInput): SignInPayload!
 		updateProfile(where: ProfileWhereUniqueInput, data: ProfileUpdateInput): Profile!
 	}
 
@@ -38,7 +53,7 @@ const typeDefs = gql`
 		id: ID
 	}
 
-	input UserCreateInput {
+	input AccountCreateInput {
 		email: String!
 		id: ID
 		name: String
@@ -47,7 +62,7 @@ const typeDefs = gql`
 		profile: ProfileCreateInput
 	}
 
-	input UserInput {
+	input AccountInput {
 		email: String
 		username: String
 		password: String
