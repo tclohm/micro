@@ -11,3 +11,5 @@ const server = new ApolloServer({
 	gateway,
 	subscriptions: false
 })
+
+module.exports = server 
