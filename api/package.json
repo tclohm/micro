@@ -4,13 +4,19 @@
 	"private": true,
 	"main": "server.js",
 	"scripts": {
-		"server": "nodemon ./src/server.js"
+		"dev": "nodemon -r dotenv/config -r esm ./src/index.js"
 	},
 	"dependencies": {
+		"@apollo/federation": "^0.20.4",
+		"@apollo/gateway": "^0.20.4",
 		"@prisma/client": "^2.6.2",
+		"apollo-server": "^2.18.1",
 		"apollo-server-express": "^2.17.0",
+		"dotenv": "^8.2.0",
+		"esm": "^3.2.25",
 		"express": "^4.17.1",
 		"express-jwt": "^6.0.0",
+		"graphql": "^15.3.0",
 		"graphql-tools": "^6.2.2",
 		"nodemon": "^2.0.4"
 	},
