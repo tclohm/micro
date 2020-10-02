@@ -1,10 +1,10 @@
-const app = require('./src/config/app')
-const server = require('./src/config/apollo')
+import app  from "./config/app";
+import server from "./config/apollo";
+
+const port = process.env.PORT
 
 server.applyMiddleware({ app })
 
 app.listen({ port }, () => {
-	
-	console.log(`booting up server...\nport is on ${port}${server.graphqlPath}.....\n👟 + 🎽 = 🏃‍♀️........💨`)
-
+	console.log(` Booting up server ${port}${server.graphqlPath}`)
 })

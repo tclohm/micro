@@ -1,5 +1,5 @@
-const { ApolloGateway } = require("@apollo/gateway");
-const { ApolloServer } = require("apollo-server-express");
+import  { ApolloGateway } from "@apollo/gateway";
+import { ApolloServer } from "apollo-server-express";
 
 const gateway = new ApolloGateway({
 	serviceList: [
@@ -11,3 +11,5 @@ const server = new ApolloServer({
 	gateway,
 	subscriptions: false
 })
+
+export default server;

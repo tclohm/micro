@@ -1,7 +1,7 @@
-const { ApolloServer } = require("apollo-server");
-const { buildFederatedSchema } = requier("@apollo/federation");
-const resolvers = require("./resolvers");
-const typeDefs = require("./typeDefs");
+import { ApolloServer } from "apollo-server";
+import { buildFederatedSchema } from "@apollo/federation";
+import resolvers from "./resolvers";
+import typeDefs from "./typeDefs";
 
 
 (async () => {
