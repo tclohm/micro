@@ -6,11 +6,6 @@ const typeDefs = gql`
 		email: String!
 	}
 
-	type Account {
-		id: ID!
-		email: String!
-	}
-
 	extend type Query {
 		viewer: Account
 	}
