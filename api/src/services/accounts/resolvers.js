@@ -15,7 +15,6 @@ const resolvers = {
 
 	Query: {
 		viewer(parent, args, { user }, info) {
-			console.log(user)
 			return accounts[0];
 		}
 	}

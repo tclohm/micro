@@ -5,7 +5,7 @@ import jwksClient from "jwks-rsa";
 const app = express()
 
 const jwtCheck = jwt({
-	secrets: jwtsClient.expressJwtSecret({
+	secret: jwksClient.expressJwtSecret({
 		cache: true,
 		rateLimit: true,
 		jwksRequestsPerMinute: 5,
