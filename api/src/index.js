@@ -6,5 +6,5 @@ const port = process.env.PORT
 server.applyMiddleware({ app })
 
 app.listen({ port }, () => {
-	console.log(` Booting up server ${port}${server.graphqlPath}`)
+	console.log(` ✔︎ server is up ${port}${server.graphqlPath}`)
 })
