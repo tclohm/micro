@@ -5,6 +5,7 @@ const typeDefs = gql`
 		id: ID!
 		createdAt: String!
 		email: String!
+		isModerator: Boolean
 	}
 
 	extend type Query {
@@ -29,7 +30,9 @@ const typeDefs = gql`
 	}
 
 	extend type Mutation {
+		changeAccountModerationRole(where: AccountWhereUniqueInput!): Account!
 		createAccount(data: CreateAccountInput): Account!
+		deleteAccount(where: AccountWhereUniqueInput): Boolean!
 		updateAccount(
 			data: UpdateAccountInput!
 			where: AccountWhereUniqueInput!
