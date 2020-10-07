@@ -9,22 +9,22 @@ const canReadAnyAccount = rule()((parent, args, { user }, info) => {
 
 const canReadOwnAccount = rule()((parent, args, { user }, info) => {
 	const userPermissions = getPermissions(user)
-	return userPermissions &&  userPermissions.includes("read:own_account");
+	return userPermissions && userPermissions.includes("read:own_account");
 });
 
 const canEditOwnAccount = rule()((parent, args, { user }, info) => {
 	const userPermissions = getPermissions(user)
-	return userPermissions &&  userPermissions.includes("edit:own_account");
+	return userPermissions && userPermissions.includes("edit:own_account");
 });
 
 const canBlockAccount = rule()((parent, args, { user }, info) => {
 	const userPermissions = getPermissions(user)
-	return userPermissions &&  userPermissions.includes("block:any_account");
+	return userPermissions && userPermissions.includes("block:any_account");
 });
 
 const canPromoteAccount = rule()((parent, args, { user }, info) => {
 	const userPermissions = getPermissions(user)
-	return userPermissions &&  userPermissions.includes("promote:any_account");
+	return userPermissions && userPermissions.includes("promote:any_account");
 });
 
 const isReadingOwnAccount = rule()((parent, { id }, { user }, info) => {

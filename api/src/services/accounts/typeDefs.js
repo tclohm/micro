@@ -3,10 +3,12 @@ import { gql } from "apollo-server";
 const typeDefs = gql`
 
 	scalar DateTime
-
+	"""
+	An account is an Auth0 user that provides authentication details.
+	"""
 	type Account @key(fields: "id") {
 		id: ID!
-		createdAt: String!
+		createdAt: DateTime!
 		email: String!
 		isBlocked: Boolean
 		isModerator: Boolean
