@@ -26,6 +26,7 @@
 		"graphql-shield": "^7.3.6",
 		"graphql-tools": "^6.2.2",
 		"jwks-rsa": "^1.10.1",
+		"mongoose": "^5.10.8",
 		"nodemon": "^2.0.4",
 		"request": "^2.88.2",
 		"validator": "^13.1.17",
