@@ -6,6 +6,7 @@
 	"scripts": {
 		"dev": "concurrently -k yarn:dev:*",
 		"dev:accounts": "nodemon -r dotenv/config -r esm ./src/services/accounts/index.js",
+		"dev:profiles": "nodemon -r dotenv/config -r esm ./src/services/profiles/index.js",
 		"dev:gateway": "wait-on tcp:4001 && nodemon -r dotenv/config -r esm ./src/index.js"
 	},
 	"dependencies": {
@@ -25,7 +26,9 @@
 		"graphql-middleware": "^4.0.2",
 		"graphql-shield": "^7.3.6",
 		"graphql-tools": "^6.2.2",
+		"gravatar-url": "^3.1.0",
 		"jwks-rsa": "^1.10.1",
+		"mongoose": "^5.10.8",
 		"nodemon": "^2.0.4",
 		"request": "^2.88.2",
 		"validator": "^13.1.17",
