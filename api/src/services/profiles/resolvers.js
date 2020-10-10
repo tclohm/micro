@@ -23,6 +23,7 @@ const resolvers = {
 			return dataSources.profilesAPI.checkViewerFollowsProfile(user.sub, profile._id);
 		}
 	},
+
 	Query: {
 		async profile(parent, { username }, { dataSources }, info) {
 			const profile = await dataSources.profilesAPI.getProfile({ username });
@@ -34,6 +35,28 @@ const resolvers = {
 		},
 		profiles(parent, args, { dataSources }, info) {
 			return dataSources.profilesAPI.getProfiles();
+		}
+	},
+
+	Mutation: {
+		createProfile(parent, { data }, { dataSources }, info) {
+			return dataSources.profilesAPI.createProfile(data)
+		},
+		updateProfile(
+			parent, 
+			{ data, where: { username: currentUsername } }, 
+			{ dataSources }, 
+			info
+		) {
+			return dataSources.profilesAPI.updateProfile(currentUsername, data);
+		},
+		deleteProfile(
+			parent,
+			{ where: { username } },
+			{ dataSources },
+			info
+		) {
+			return dataSources.profilesAPI.deleteProfile(username);
 		}
 	}
 };
