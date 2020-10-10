@@ -3,10 +3,10 @@ import { applyMiddleware } from "graphql-middleware";
 import { buildFederatedSchema } from "@apollo/federation";
 
 import auth0 from "../../config/auth0";
-import initMongoose from "../config/mongoose";
+import initMongoose from "../../config/mongoose";
 import permissions from "./permissions";
 
-import Profile from "../../models";
+import Profile from "../../models/Profile";
 import ProfilesDataSource from "./datasources/ProfilesDataSource";
 import resolvers from "./resolvers";
 import typeDefs from "./typeDefs";
