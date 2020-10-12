@@ -21,6 +21,9 @@ const resolvers = {
 		},
 		viewerIsFollowing(profile, args, { dataSources, user }, info) {
 			return dataSources.profilesAPI.checkViewerFollowsProfile(user.sub, profile._id);
+		},
+		following(profile, args, { dataSources }, info) {
+			return dataSources.profilesAPI.getFollowedProfiles(profile.following);
 		}
 	},
 
@@ -35,6 +38,9 @@ const resolvers = {
 		},
 		profiles(parent, args, { dataSources }, info) {
 			return dataSources.profilesAPI.getProfiles();
+		},
+		searchProfiles(parent, { query: { text} }, { dataSources }, info) {
+			return dataSources.profilesAPI.searchProfiles(text);
 		}
 	},
 
@@ -57,6 +63,28 @@ const resolvers = {
 			info
 		) {
 			return dataSources.profilesAPI.deleteProfile(username);
+		},
+		followProfile(
+			parent,
+			{ data: { followingProfileId }, where: { username } },
+			{ dataSources },
+			info
+		) {
+			return dataSources.profilesAPI.followProfile(
+				username,
+				followingProfileId
+			);
+		},
+		unfollowProfile(
+			parent,
+			{ data: { followingProfileId }, where: { username } },
+			{ dataSources },
+			info
+		) {
+			return dataSources.profilesAPI.unfollowProfile(
+				username,
+				followingProfileId
+			);
 		}
 	}
 };
