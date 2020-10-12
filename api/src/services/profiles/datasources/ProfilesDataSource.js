@@ -61,6 +61,35 @@ class ProfilesDataSource extends DataSource {
 		}).exec();
 		return deletedProfile._id;
 	}
+
+	followProfile(username, profileIdToFollow) {
+		return this.Profile.findOneAndUpdate(
+			{ username },
+			{ $addToSet: { following: profileIdToFollow } },
+			{ new: true }
+		);
+	}
+
+	unfollowProfile(username, profileIdToUnfollow) {
+		return this.Profile.findOneAndUpdate(
+			{ username },
+			{ $pull: { following: profileIdToUnfollow } },
+			{ new: true }
+		);
+	}
+
+	getFollowedProfiles(following) {
+		return this.Profile.find({ _id: { $in: following } }).exec();
+	}
+
+	searchProfiles(searchString) {
+		return this.Profile.find(
+			{ $text: { $seach: searchString } },
+			{ score: { $meta: "textScore" } }
+		)
+		.sort({ score: { $meta: "textScore" }, _id: -1})
+		.exec();
+	}
 }
 
 export default ProfilesDataSource;

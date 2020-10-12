@@ -28,12 +28,25 @@ const typeDefs = gql`
 		viewerIsFollowing: Boolean
 	}
 
+	"""
+	Provides a search string to query users by usernames or full names.
+	"""
+	input ProfileSearchInput {
+		"The text string to search for in usernames or full names."
+		text: String!
+	}
+
 	extend type Query {
+
 		"Retrieve a single profile by username."
 		profile(username: String!): Profile!
 
 		"Retrieves a list of profiles."
 		profiles: [Profile]
+
+		"Performs a search of user profiles."
+		searchProfiles(query: ProfileSearchInput!): [Profile]
+
 	}
 
 	"""
@@ -70,16 +83,40 @@ const typeDefs = gql`
 		username: String!
 	}
 
+	"""
+	Provides the unique MongoDB document ID of an existing profile.
+	"""
+	input FollowingProfileInput {
+		"The unique profile ID of the user to be followed or unfollowed."
+		followingProfileId: ID!
+	}
+
 	extend type Mutation {
+
 		"Creates a new profile tied to an Auth0 account."
 		createProfile(data: CreateProfileInput!): Profile!
+
 		"Updates a user's profile details."
 		updateProfile(
 			data: UpdateProfileInput!
 			where: ProfileWhereUniqueInput!
 		): Profile!
+
 		"Deletes a user profile."
 		deleteProfile(where: ProfileWhereUniqueInput!): ID!
+
+		"Allows one user to follow another."
+		followProfile(
+			data: FollowingProfileInput!
+			where: ProfileWhereUniqueInput!
+		): Profile!
+
+		"Allows one user to unfollow another."
+		unfollowProfile(
+			data: FollowingProfileInput!
+			where: ProfileWhereUniqueInput!
+		): Profile!
+
 	}
 `;
 
