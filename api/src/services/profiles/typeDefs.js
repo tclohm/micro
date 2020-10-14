@@ -163,7 +163,7 @@ const typeDefs = gql`
 		"The cursor to continue from when paginating forward."
 		endCursor: String
 		"Whether there are more items when paginating forward."
-		hasNexPage: Boolean!
+		hasNextPage: Boolean!
 		"Whether there are more items when paginating backward."
 		hasPreviousPage: Boolean!
 		"The cursor to continue from them paginating backward."
