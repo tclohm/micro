@@ -132,7 +132,7 @@ const typeDefs = gql`
 		"A list of profile edges."
 		edges: [ProfileEdge]
 		"Information to assist with pagination."
-		pageInfo: [PageInfo]
+		pageInfo: PageInfo!
 	}
 
 	"""
