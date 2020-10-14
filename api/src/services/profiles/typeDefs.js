@@ -118,6 +118,51 @@ const typeDefs = gql`
 		): Profile!
 
 	}
+
+	"""
+	A list of profile edges with pagination information.
+	"""
+	type ProfileConnection {
+		"A list of profile edges."
+		edges: [ProfileEdge]
+		"Information to assist with pagination."
+		pageInfo: [PageInfo]
+	}
+
+	"""
+	A single profile node with its cursor.
+	"""
+	type ProfileEdge {
+		"A cursor for use in pagination."
+		cursor: ID!
+		"A profile at the end of an edge."
+		node: Profile!
+	}
+
+	"""
+	Sorting options for profile connections.
+	"""
+	enum ProfileOrderByInput {
+		"Order profiles ascending by username."
+		username_ASC
+		"Order profiles descending by username."
+		username_DESC
+	}
+
+
+	"""
+	Information about pagination in a connection.
+	"""
+	type PageInfo {
+		"The cursor to continue from when paginating forward."
+		endCursor: String
+		"Whether there are more items when paginating forward."
+		hasNexPage: Boolean!
+		"Whether there are more items when paginating backward."
+		hasPreviousPage: Boolean!
+		"The cursor to continue from them paginating backward."
+		startCursor: String
+	}
 `;
 
 export default typeDefs;
