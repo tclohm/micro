@@ -6,8 +6,9 @@
 	"scripts": {
 		"dev": "concurrently -k yarn:dev:*",
 		"dev:accounts": "nodemon -r dotenv/config -r esm ./src/services/accounts/index.js",
+		"dev:content": "nodemon -r dotenv/config -r esm ./src/services/content/index.js",
 		"dev:profiles": "nodemon -r dotenv/config -r esm ./src/services/profiles/index.js",
-		"dev:gateway": "wait-on tcp:4001 && nodemon -r dotenv/config -r esm ./src/index.js"
+		"dev:gateway": "wait-on tcp:4001 tcp:4002 tcp:4003 && nodemon -r dotenv/config -r esm ./src/index.js",
 	},
 	"dependencies": {
 		"@apollo/federation": "^0.20.4",
