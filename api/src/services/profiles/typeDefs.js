@@ -48,10 +48,25 @@ const typeDefs = gql`
 		profile(username: String!): Profile!
 
 		"Retrieves a list of profiles."
-		profiles: [Profile]
+		profiles(
+			after: String
+			before: String
+			first: Int
+			last: Int
+			last: Int
+			orderBy: ProfileOrderByInput
+		): ProfileConnection
 
-		"Performs a search of user profiles."
-		searchProfiles(query: ProfileSearchInput!): [Profile]
+		"""
+		Performs a search of user profiles.
+
+		Results are available in descending order by relevance only.
+		"""
+		searchProfiles(
+			after: String
+			first: Int
+			query: ProfileSearchInput!
+		): ProfileConnection
 
 	}
 
@@ -132,7 +147,7 @@ const typeDefs = gql`
 		"A list of profile edges."
 		edges: [ProfileEdge]
 		"Information to assist with pagination."
-		pageInfo: [PageInfo]
+		pageInfo: PageInfo!
 	}
 
 	"""
@@ -163,7 +178,7 @@ const typeDefs = gql`
 		"The cursor to continue from when paginating forward."
 		endCursor: String
 		"Whether there are more items when paginating forward."
-		hasNexPage: Boolean!
+		hasNextPage: Boolean!
 		"Whether there are more items when paginating backward."
 		hasPreviousPage: Boolean!
 		"The cursor to continue from them paginating backward."

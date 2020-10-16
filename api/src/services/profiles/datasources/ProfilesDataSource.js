@@ -16,8 +16,13 @@ class ProfilesDataSource extends DataSource {
 		return this.Profile.findOne(filter).exec();
 	}
 
-	getProfiles() {
-		return this.Profile.find({}).exec()
+	async getProfiles({ after, before, first, last, orderBy }) {
+		const sort = this._getProfileSort(orderBy);
+		const queryArgs = { after, before, first, last, sort };
+		const edges = await this.pagination.getEdges(queryArgs);
+		const pageInfo = await this.pagination.getPageInfo(edges, queryArgs);
+		
+		return { edges, pageInfo };
 	}
 
 	getProfileById(id) {
@@ -112,13 +117,14 @@ class ProfilesDataSource extends DataSource {
 		return { edges, pageInfo };
 	}
 
-	searchProfiles(searchString) {
-		return this.Profile.find(
-			{ $text: { $seach: searchString } },
-			{ score: { $meta: "textScore" } }
-		)
-		.sort({ score: { $meta: "textScore" }, _id: -1})
-		.exec();
+	async searchProfiles({ after, first, searchString }) {
+		const sort = { score: { $meta: "textScore" }, _id: -1 };
+		const filter = { $text: { $search: searchString } };
+		const queryArgs = { after, first, filter, sort };
+		const edges = await this.pagination.getEdges(queryArgs);
+		const pageInfo = await this.pagination.getPageInfo(edges, queryArgs);
+
+		return { edges, pageInfo };
 	}
 }
 
