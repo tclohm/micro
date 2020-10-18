@@ -1,4 +1,4 @@
-import { and, rule, shield } from "graphql-shiled";
+import { and, rule, shield } from "graphql-shield";
 
 import getPermissions from "../../lib/getPermissions";
 

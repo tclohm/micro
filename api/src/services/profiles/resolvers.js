@@ -11,7 +11,7 @@ const resolvers = {
 
 	Profile: {
 		__resolveReference(reference, { dataSources }, info) {
-			return dataSources.profilesAPI.getProfilesById(reference.id);
+			return dataSources.profilesAPI.getProfileById(reference.id);
 		},
 		account(profile, args, context, info) {
 			return { __typename: "Account", id: profile.accountId };

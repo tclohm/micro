@@ -7,9 +7,25 @@ const typeDefs = gql`
 	scalar DateTime
 
 	"""
+	Specifies common fields for posts and replies.
+	"""
+	interface Content {
+		"The unique MongoDB document ID of the content."
+		id: ID!
+		"The profile of the user who authored the content."
+		author: Profile!
+		"The data and time the content was created."
+		createdAt: DateTime!
+		"Whether the content is blocked."
+		isBlocked: Boolean
+		"The URL of a media file associated with the content."
+		media: String
+	}
+
+	"""
 	A post contains cotent authored by a user.
 	"""
-	type Post {
+	type Post implements Content {
 		"The unique MongoDB document ID of the post."
 		id: ID!
 		"The profile of the user who authored the post."
@@ -19,9 +35,37 @@ const typeDefs = gql`
 		"Whether the post is blocked."
 		isBlocked: Boolean
 		"The URL of a media file associated with the content."
-		media: String
+		media: String!
 		"The body content of the post (max. 256 characters)."
 		text: String!
+		replies(
+			after: String
+			before: String
+			first: Int
+			last: Int
+			orderBy: ReplyOrderByInput
+		): ReplyConnection
+	}
+
+	"""
+	A reply contains content that is a response to another post.
+	"""
+	type Reply implements Content {
+		"The unique MongoDB document ID of the reply."
+		id: ID!
+		"The profile of the user who authored the reply."
+		"The date and time the reply was created."
+		createdAt: DateTime!
+		"Where the reply is blocked."
+		isBlocked: Boolean
+		"The URL of a media file associated with the content."
+		media: String
+		"The parent post of the reply"
+		post: Post
+		"The author of the parent post of the reply."
+		postAuthor: Profile
+		"The body content of the reply (max. 256 characters)."
+		result: String!
 	}
 
 	extend type Profile @key(fields: "id") {
@@ -35,6 +79,15 @@ const typeDefs = gql`
 			last: Int
 			orderBy: PostOrderByInput
 		): PostConnection
+
+		"A list of replies written by the user."
+		replies(
+			after: String
+			before: String
+			first: Int
+			last: Int
+			orderBy: ReplyOrderByInput
+		): ReplyConnection
 	}
 
 	"""
@@ -62,6 +115,16 @@ const typeDefs = gql`
 	}
 
 	"""
+	A list of reply edges with pagination information.
+	"""
+	type ReplyConnection {
+		"A list of reply edges."
+		edges: [ReplyEdge]
+		"Information to assist with pagination."
+		pageInfo: PageInfo!
+	}
+
+	"""
 	A single post node with its cursor
 	"""
 	type PostEdge {
@@ -69,6 +132,16 @@ const typeDefs = gql`
 		cursor: ID!
 		"A post at the end of an edge."
 		node: Post!
+	}
+
+	"""
+	A single reply node with its cursor.
+	"""
+	type ReplyEdge {
+		"A cursor for use in pagination."
+		cursor: ID!
+		"A reply at the end of an edge."
+		node: Reply!
 	}
 
 	"""
@@ -94,10 +167,14 @@ const typeDefs = gql`
 		"""
 		Whether to include posts that have been blocked by a moderator.
 
-		Default is `true`.
+		Default is 'true'.
 		"""
 		includeBlocked: Boolean
 	}
+
+	"""
+	Sorting options for reply connections.
+	"""
 
 	extend type Query {
 		"Retrieves a single post by MongoDB document ID."
@@ -112,21 +189,55 @@ const typeDefs = gql`
 			orderBy: PostOrderByInput
 			filter: PostWhereInput
 		): PostConnection
+
+		"Retrieves a single reply by MongoDB document ID."
+		reply(id: ID!): Reply!
+
+		"Retrieves a list of replies."
+		replies(
+			after: String
+			before: String
+			first: Int
+			last: Int
+			orderBy: ReplyOrderByInput
+			filter: ReplyWhereInput!
+		): ReplyConnection
 	}
 
 	"""
 	Provides data to create a post.
 	"""
 	input CreatePostInput {
+		"The URL of a media file associated with the content."
+		media: String!
 		"The body content of the post (max. 256 characters)."
 		text: String!
 		"The unique username of the user who authored the post."
 		username: String!
 	}
 
+	input UpdatePostInput {
+		"The URL of a media file associated with the content."
+		media: String
+		"The body content of the post (max. 256 characters)."
+		text: String
+	}
+
+	"""
+	Provides the unique ID of an existing piece of content.
+	"""
+	input ContentWhereUniqueInput {
+		"The unique MongoDB document ID associated with the content."
+		id: ID!
+	}
+
 	extend type Mutation {
 		"Create a new post."
 		createPost(data: CreatePostInput!): Post!
+		updatePost(data: UpdatePostInput!
+				   where: ContentWhereUniqueInput!
+				  ): Post!
+		deletePost(where: ContentWhereUniqueInput!): ID!
 	}
 `;
 

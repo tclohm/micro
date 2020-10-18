@@ -1,3 +1,4 @@
+import { DateTimeResolver } from "../../lib/customScalars";
 const resolvers = {
 	DateTime: DateTimeResolver,
 
@@ -32,8 +33,14 @@ const resolvers = {
 	},
 
 	Mutation: {
-		createPost(parent, { data }, { dataSources}, info) {
+		createPost(parent, { data }, { dataSources }, info) {
 			return dataSources.contentAPI.createPost(data);
+		},
+		updatePost(parent, { data, where: { id: id } }, { dataSources }, info) {
+			return dataSources.contentAPI.updatePost(data, id);
+		},
+		deletePost(parent, { where: { id } }, { dataSources }, info) {
+			return dataSources.contentAPI.deletePost(id);
 		}
 	}
 };

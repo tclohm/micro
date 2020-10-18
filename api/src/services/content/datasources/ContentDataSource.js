@@ -20,6 +20,7 @@ class ContentDataSource extends DataSource {
 	async getPosts({
 		after,
 		before,
+		first,
 		last,
 		orderBy,
 		filter: rawFilter
@@ -95,7 +96,7 @@ class ContentDataSource extends DataSource {
 		return { edges, pageInfo };
 	}
 
-	async createPost({ text, username }) {
+	async createPost({ text, username, media }) {
 		const profile = await this.Profile.findOne({ username }).exec();
 
 		if (!profile) {
@@ -104,9 +105,31 @@ class ContentDataSource extends DataSource {
 			);
 		}
 
-		const newPost = new this.Post({ authorProfileId: profile._id, text });
+		const newPost = new this.Post({ authorProfileId: profile._id, text, media });
 
 		return newPost.save();
+	}
+
+	async updatePost({ media, text }, id) {
+		if (!media && !text && !username) {
+			throw new UserInputError("You must supply some post data to update.");
+		}
+
+		const data = {
+			...(media && { media }),
+			...(text && { text }),
+		};
+
+		return this.Post.findByIdAndUpdate(
+			id,
+			data,
+			{ new: true }
+		);
+	}
+
+	async deletePost(id) {
+		const deletedPost = await this.Post.findByIdAndDelete(id).exec();
+		return deletedPost._id;
 	}
 }
 
