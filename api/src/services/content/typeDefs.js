@@ -269,6 +269,7 @@ const typeDefs = gql`
 		deletePost(where: ContentWhereUniqueInput!): ID!
 		"Creates a new reply to a post."
 		createReply(data: CreateReplyInput!): Reply!
+		"Deletes a reply to a post."
 		deleteReply(where: ContentWhereUniqueInput!): ID!
 	}
 `;
