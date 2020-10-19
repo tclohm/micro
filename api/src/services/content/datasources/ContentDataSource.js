@@ -232,7 +232,7 @@ class ContentDataSource extends DataSource {
 			});
 		const newReply = new this.Reply({
 			authorProfileId: profile._id,
-			content,
+			result,
 			postId,
 			postAuthorProfileId: post.authorProfileId
 		});
