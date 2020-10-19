@@ -53,7 +53,7 @@ const resolvers = {
 				first,
 				searchString: text
 			});
-		}
+		},
 	},
 
 	Mutation: {

@@ -54,6 +54,7 @@ const typeDefs = gql`
 		"The unique MongoDB document ID of the reply."
 		id: ID!
 		"The profile of the user who authored the reply."
+		author: Profile!
 		"The date and time the reply was created."
 		createdAt: DateTime!
 		"Where the reply is blocked."
@@ -175,6 +176,22 @@ const typeDefs = gql`
 	"""
 	Sorting options for reply connections.
 	"""
+	enum ReplyOrderByInput {
+		"Order replies ascending by creation time."
+		createdAt_ASC
+		"Order replies descending by creation time."
+		createdAt_DESC
+	}
+
+	"""
+	Provides a filter on which replies may be queried.
+	"""
+	input ReplyWhereInput {
+		"The unique username of the user who sent the replies."
+		from: String
+		"The unique username of the user who recieved the replies."
+		to: String
+	}
 
 	extend type Query {
 		"Retrieves a single post by MongoDB document ID."
@@ -231,6 +248,18 @@ const typeDefs = gql`
 		id: ID!
 	}
 
+	"""
+	Provides data to create a reply to a post
+	"""
+	input CreateReplyInput {
+		"The unique MongoDB document ID if the parent post."
+		postId: ID!
+		"The body content of the reply"
+		result: String!
+		"The unique username of the user who authored the reply."
+		username: String!
+	}
+
 	extend type Mutation {
 		"Create a new post."
 		createPost(data: CreatePostInput!): Post!
@@ -238,6 +267,8 @@ const typeDefs = gql`
 				   where: ContentWhereUniqueInput!
 				  ): Post!
 		deletePost(where: ContentWhereUniqueInput!): ID!
+		"Creates a new reply to a post."
+		createReply(data: CreateReplyInput!): Reply!
 	}
 `;
 
