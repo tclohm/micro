@@ -12,6 +12,125 @@ class ContentDataSource extends DataSource {
 		this.postPagination = new Pagination(Post);
 		this.replyPagination = new Pagination(Reply);
 	}
+
+	getPostById(id) {
+		return this.Post.findById(id);
+	}
+
+	async getPosts({
+		after,
+		before,
+		first,
+		last,
+		orderBy,
+		filter: rawFilter
+	}) {
+		let filter = {};
+
+		// parse the "raw" filter argument into something MongoDB can use
+		if (rawFilter && rawFilter.followedBy) {
+			const profile = await this.Profile.findOne({
+				username: rawFilter.followedBy
+			}).exec();
+
+			if (!profile) {
+				throw new UserInputError(
+					"User with that username cannot be found."
+				);
+			}
+
+			filter.authorProfileId = {
+				$in: [...profile.following, profile._id]
+			};
+		}
+
+		if (rawFilter && rawFilter.includeBlocked === false) {
+			filter.blocked = { $in: [null, false] };
+		}
+
+		// parse the orderBy enum into something MongoDB can use
+
+		// get the edges and page info
+		const sort = this._getContentSort(orderBy);
+		const queryArgs = { after, before, first, last, filter, sort };
+		const edges = await this.postPagination.getEdges(queryArgs);
+		const pageInfo = await this.postPagination.getPageInfo(
+			edges,
+			queryArgs
+		);
+
+		return { edges, pageInfo };
+	}
+
+	_getContentSort(sortEnum) {
+		let sort = {};
+
+		if (sortEnum) {
+			const sortArgs = sortEnum.split("_");
+			const [field, direction] = sortArgs;
+			sort[field] = direction === "DESC" ? -1 : 1;
+		} else {
+			sort.createdAt = -1;
+		}
+
+		return sort;
+	}
+
+	async getOwnPosts({
+		after,
+		before,
+		first,
+		last,
+		orderBy,
+		authorProfileId
+	}) {
+		const sort = this._getContentSort(orderBy);
+		const filter = { authorProfileId };
+		const queryArgs = { after, before, first, last, filter, sort };
+		const edges = await this.postPagination.getEdges(queryArgs);
+		const pageInfo = await this.postPagination.getPageInfo(
+			edges,
+			queryArgs
+		);
+
+		return { edges, pageInfo };
+	}
+
+	async createPost({ text, username, media }) {
+		const profile = await this.Profile.findOne({ username }).exec();
+
+		if (!profile) {
+			throw new UserInputError(
+				"You must provide a valid username as the author of this post."
+			);
+		}
+
+		const newPost = new this.Post({ authorProfileId: profile._id, text, media });
+
+		return newPost.save();
+	}
+
+	async updatePost({ media, text }, id) {
+		if (!media && !text && !username) {
+			throw new UserInputError("You must supply some post data to update.");
+		}
+
+		const data = {
+			...(media && { media }),
+			...(text && { text }),
+		};
+
+		return this.Post.findByIdAndUpdate(
+			id,
+			data,
+			{ new: true }
+		);
+	}
+
+	async deletePost(id) {
+		const deletedPost = await this.Post.findByIdAndDelete(id).exec();
+		return deletedPost._id;
+	}
 }
 
 export default ContentDataSource;

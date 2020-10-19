@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const postSchema = new mongoose.Schema({
 	authorProfileId: {
-		type: mongoose.Schema.Type.ObjectId,
+		type: mongoose.Schema.Types.ObjectId,
 		required: true
 	},
 	blocked: {
@@ -14,7 +14,8 @@ const postSchema = new mongoose.Schema({
 		required: true
 	},
 	media: {
-		type: String
+		type: String,
+		required: true
 	},
 	text: {
 		type: String,
