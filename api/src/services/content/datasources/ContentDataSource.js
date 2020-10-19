@@ -240,6 +240,11 @@ class ContentDataSource extends DataSource {
 		return newReply.save();
 
 	}
+
+	async deleteReply(id) {
+		const deletedReply = await this.Reply.findByIdAndDelete(id).exec();
+		return deletedReply._id;
+	}
 }
 
 export default ContentDataSource;
