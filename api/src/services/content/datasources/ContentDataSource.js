@@ -245,6 +245,19 @@ class ContentDataSource extends DataSource {
 		const deletedReply = await this.Reply.findByIdAndDelete(id).exec();
 		return deletedReply._id;
 	}
+
+	async searchPosts({ after, first, searchString }) {
+		const sort = { score: { $meta: "textScore" }, _id: -1 };
+		const filter = { $text: { $search: searchString } };
+		const queryArgs = { after, first, filter, sort };
+		const edges = await this.postPagination.getEdges(queryArgs);
+		const pageInfo = await this.postPagination.getPageInfo(
+			edges,
+			queryArgs
+		);
+
+		return { edges, pageInfo };
+	}
 }
 
 export default ContentDataSource;

@@ -219,6 +219,17 @@ const typeDefs = gql`
 			orderBy: ReplyOrderByInput
 			filter: ReplyWhereInput!
 		): ReplyConnection
+
+		"""
+		Performs a search of posts.
+
+		Results are available in descending order by relevance only.
+		"""
+		searchPost(
+			after: String
+			first: Int
+			query: PostSearchInput!
+		): PostConnection
 	}
 
 	"""
@@ -258,6 +269,14 @@ const typeDefs = gql`
 		result: String!
 		"The unique username of the user who authored the reply."
 		username: String!
+	}
+
+	"""
+	Provides a search string to query posts by text in their body content.
+	"""
+	input PostSearchInput {
+		"The text string to search for in the post content."
+		text: String!
 	}
 
 	extend type Mutation {
