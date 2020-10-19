@@ -225,7 +225,7 @@ const typeDefs = gql`
 
 		Results are available in descending order by relevance only.
 		"""
-		searchPost(
+		searchPosts(
 			after: String
 			first: Int
 			query: PostSearchInput!
@@ -282,14 +282,26 @@ const typeDefs = gql`
 	extend type Mutation {
 		"Create a new post."
 		createPost(data: CreatePostInput!): Post!
+
+		"Update an existing post."
 		updatePost(data: UpdatePostInput!
 				   where: ContentWhereUniqueInput!
 				  ): Post!
+
+		"Delete an existing post."
 		deletePost(where: ContentWhereUniqueInput!): ID!
+
 		"Creates a new reply to a post."
 		createReply(data: CreateReplyInput!): Reply!
+
 		"Deletes a reply to a post."
 		deleteReply(where: ContentWhereUniqueInput!): ID!
+
+		"Toggles the current blocked state of the post."
+		togglePostBlock(where: ContentWhereUniqueInput!): Post!
+
+		"Toggles the current blocked state of the reply."
+		toggleReplyBlock(where: ContentWhereUniqueInput!): Reply!
 	}
 `;
 

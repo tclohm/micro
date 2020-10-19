@@ -248,7 +248,10 @@ class ContentDataSource extends DataSource {
 
 	async searchPosts({ after, first, searchString }) {
 		const sort = { score: { $meta: "textScore" }, _id: -1 };
-		const filter = { $text: { $search: searchString } };
+		const filter = { 
+			$text: { $search: searchString },
+			blocked: { $in: [null, false ] }
+		};
 		const queryArgs = { after, first, filter, sort };
 		const edges = await this.postPagination.getEdges(queryArgs);
 		const pageInfo = await this.postPagination.getPageInfo(
@@ -257,6 +260,26 @@ class ContentDataSource extends DataSource {
 		);
 
 		return { edges, pageInfo };
+	}
+
+	async togglePostBlock(id) {
+		const post = await this.Post.findById(id).exec();
+		const currentBlockedStatus = post.blocked === undefined ? false : post.blocked;
+		return this.Post.findOneAndUpdate(
+			{ _id: id },
+			{ blocked: !currentBlockedStatus },
+			{ new: true }
+		);
+	}
+
+	async toggleReplyBlock(id) {
+		const reply = await this.Reply.findById(id).exec()
+		const currentBlockedStatus = reply.blocked === undefined ? false : reply.blocked;
+		return this.Reply.findOneAndUpdate(
+			{ _id: id },
+			{ blocked: !currentBlockedStatus },
+			{ new: true }
+		);
 	}
 }
 
