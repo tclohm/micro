@@ -17,7 +17,7 @@ const canBlockAnyContent = rule()((parent, args, { user }, info) => {
 	return userPermissions && userPermissions.includes("block:any_content");
 });
 
-const isCreatingOwnContent = rule()((parent, { data: { username } }, { user, dataSources }, info) => {
+const isCreatingOwnContent = rule()(async (parent, { data: { username } }, { user, dataSources }, info) => {
 	const profile = await dataSources.contentAPI.Profile.findOne({
 		username
 	}).exec();

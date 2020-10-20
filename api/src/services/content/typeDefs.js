@@ -278,6 +278,16 @@ const typeDefs = gql`
 	}
 
 	"""
+	Provides data to update a reply to a post
+	"""
+	input UpdateReplyInput {
+		"The URL of a media file associated with the content."
+		media: String
+		"The body content of the reply (max. 256 characters)."
+		result: String
+	}
+
+	"""
 	Provides a search string to query posts by text in their body content.
 	"""
 	input PostSearchInput {
