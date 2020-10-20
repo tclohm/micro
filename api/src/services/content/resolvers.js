@@ -98,6 +98,9 @@ const resolvers = {
 		createReply(parent, { data }, { dataSources }, info) {
 			return dataSources.contentAPI.createReply(data);
 		},
+		updateReply(parent, { data, where: { id: id } }, { dataSources }, info) {
+			return dataSources.contentAPI.updateReply(data, id)
+		},
 		deleteReply(parent, { where: { id } }, { dataSources }, info) {
 			return dataSources.contentAPI.deleteReply(id);
 		},

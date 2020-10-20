@@ -28,6 +28,10 @@ const replySchema = new mongoose.Schema({
 		type: String,
 		maxlength: 256,
 		required: true
+	},
+	edited: {
+		type: Boolean,
+		default: false
 	}
 });
 

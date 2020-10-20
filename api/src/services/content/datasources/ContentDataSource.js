@@ -111,13 +111,14 @@ class ContentDataSource extends DataSource {
 	}
 
 	async updatePost({ media, text }, id) {
-		if (!media && !text && !username) {
+		if (!media && !text) {
 			throw new UserInputError("You must supply some post data to update.");
 		}
 
 		const data = {
 			...(media && { media }),
 			...(text && { text }),
+			...({ edited: true })
 		};
 
 		return this.Post.findByIdAndUpdate(
@@ -239,6 +240,25 @@ class ContentDataSource extends DataSource {
 
 		return newReply.save();
 
+	}
+
+	async updateReply({ media, result }, id) {
+
+		if (!media && !result) {
+			throw new UserInputError("You must supply some post data to update.");
+		}
+
+		const data = {
+			...(media && { media }),
+			...(result && { result }),
+			...({ edited: true })
+		};
+
+		return this.Reply.findByIdAndUpdate(
+			id,
+			data,
+			{ new: true }
+		);
 	}
 
 	async deleteReply(id) {

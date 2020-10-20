@@ -20,6 +20,8 @@ const typeDefs = gql`
 		isBlocked: Boolean
 		"The URL of a media file associated with the content."
 		media: String
+		"Has this content been edited"
+		edited: Boolean
 	}
 
 	"""
@@ -38,6 +40,8 @@ const typeDefs = gql`
 		media: String!
 		"The body content of the post (max. 256 characters)."
 		text: String!
+		"Has the post been edited."
+		edited: Boolean
 		replies(
 			after: String
 			before: String
@@ -67,6 +71,8 @@ const typeDefs = gql`
 		postAuthor: Profile
 		"The body content of the reply (max. 256 characters)."
 		result: String!
+		"Has the reply been edited."
+		edited: Boolean
 	}
 
 	extend type Profile @key(fields: "id") {
@@ -293,6 +299,11 @@ const typeDefs = gql`
 
 		"Creates a new reply to a post."
 		createReply(data: CreateReplyInput!): Reply!
+
+		"Update an existing reply."
+		updateReply(data: UpdateReplyInput!
+					where: ContentWhereUniqueInput!
+		): Reply!
 
 		"Deletes a reply to a post."
 		deleteReply(where: ContentWhereUniqueInput!): ID!
