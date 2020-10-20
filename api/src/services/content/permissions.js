@@ -39,7 +39,8 @@ const isEditingOwnPost = rule()(
 		const profile = await dataSources.contentAPI.Profile.findOne({
 			accountId: user.sub
 		}).exec();
-		const post = await dataSources.contentAPI.post.findById(id);
+
+		const post = await dataSources.contentAPI.Post.findById(id);
 
 		if (!profile || !post) {
 			return false;
