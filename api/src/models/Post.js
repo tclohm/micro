@@ -21,8 +21,14 @@ const postSchema = new mongoose.Schema({
 		type: String,
 		maxlength: 256,
 		required: true
+	},
+	edited: {
+		type: Boolean,
+		default: false
 	}
 });
+
+postSchema.index({ text: "text" });
 
 const Post = mongoose.model("Post", postSchema);
 

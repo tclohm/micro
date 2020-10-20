@@ -20,6 +20,8 @@ const typeDefs = gql`
 		isBlocked: Boolean
 		"The URL of a media file associated with the content."
 		media: String
+		"Has this content been edited"
+		edited: Boolean
 	}
 
 	"""
@@ -38,6 +40,8 @@ const typeDefs = gql`
 		media: String!
 		"The body content of the post (max. 256 characters)."
 		text: String!
+		"Has the post been edited."
+		edited: Boolean
 		replies(
 			after: String
 			before: String
@@ -67,6 +71,8 @@ const typeDefs = gql`
 		postAuthor: Profile
 		"The body content of the reply (max. 256 characters)."
 		result: String!
+		"Has the reply been edited."
+		edited: Boolean
 	}
 
 	extend type Profile @key(fields: "id") {
@@ -219,6 +225,17 @@ const typeDefs = gql`
 			orderBy: ReplyOrderByInput
 			filter: ReplyWhereInput!
 		): ReplyConnection
+
+		"""
+		Performs a search of posts.
+
+		Results are available in descending order by relevance only.
+		"""
+		searchPosts(
+			after: String
+			first: Int
+			query: PostSearchInput!
+		): PostConnection
 	}
 
 	"""
@@ -260,17 +277,52 @@ const typeDefs = gql`
 		username: String!
 	}
 
+	"""
+	Provides data to update a reply to a post
+	"""
+	input UpdateReplyInput {
+		"The URL of a media file associated with the content."
+		media: String
+		"The body content of the reply (max. 256 characters)."
+		result: String
+	}
+
+	"""
+	Provides a search string to query posts by text in their body content.
+	"""
+	input PostSearchInput {
+		"The text string to search for in the post content."
+		text: String!
+	}
+
 	extend type Mutation {
 		"Create a new post."
 		createPost(data: CreatePostInput!): Post!
+
+		"Update an existing post."
 		updatePost(data: UpdatePostInput!
 				   where: ContentWhereUniqueInput!
 				  ): Post!
+
+		"Delete an existing post."
 		deletePost(where: ContentWhereUniqueInput!): ID!
+
 		"Creates a new reply to a post."
 		createReply(data: CreateReplyInput!): Reply!
+
+		"Update an existing reply."
+		updateReply(data: UpdateReplyInput!
+					where: ContentWhereUniqueInput!
+				   ): Reply!
+
 		"Deletes a reply to a post."
 		deleteReply(where: ContentWhereUniqueInput!): ID!
+
+		"Toggles the current blocked state of the post."
+		togglePostBlock(where: ContentWhereUniqueInput!): Post!
+
+		"Toggles the current blocked state of the reply."
+		toggleReplyBlock(where: ContentWhereUniqueInput!): Reply!
 	}
 `;
 

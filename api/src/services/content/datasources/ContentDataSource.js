@@ -111,13 +111,14 @@ class ContentDataSource extends DataSource {
 	}
 
 	async updatePost({ media, text }, id) {
-		if (!media && !text && !username) {
+		if (!media && !text) {
 			throw new UserInputError("You must supply some post data to update.");
 		}
 
 		const data = {
 			...(media && { media }),
 			...(text && { text }),
+			...({ edited: true })
 		};
 
 		return this.Post.findByIdAndUpdate(
@@ -241,9 +242,64 @@ class ContentDataSource extends DataSource {
 
 	}
 
+	async updateReply({ media, result }, id) {
+
+		if (!media && !result) {
+			throw new UserInputError("You must supply some post data to update.");
+		}
+
+		const data = {
+			...(media && { media }),
+			...(result && { result }),
+			...({ edited: true })
+		};
+
+		return this.Reply.findByIdAndUpdate(
+			id,
+			data,
+			{ new: true }
+		);
+	}
+
 	async deleteReply(id) {
 		const deletedReply = await this.Reply.findByIdAndDelete(id).exec();
 		return deletedReply._id;
+	}
+
+	async searchPosts({ after, first, searchString }) {
+		const sort = { score: { $meta: "textScore" }, _id: -1 };
+		const filter = { 
+			$text: { $search: searchString },
+			blocked: { $in: [null, false ] }
+		};
+		const queryArgs = { after, first, filter, sort };
+		const edges = await this.postPagination.getEdges(queryArgs);
+		const pageInfo = await this.postPagination.getPageInfo(
+			edges,
+			queryArgs
+		);
+
+		return { edges, pageInfo };
+	}
+
+	async togglePostBlock(id) {
+		const post = await this.Post.findById(id).exec();
+		const currentBlockedStatus = post.blocked === undefined ? false : post.blocked;
+		return this.Post.findOneAndUpdate(
+			{ _id: id },
+			{ blocked: !currentBlockedStatus },
+			{ new: true }
+		);
+	}
+
+	async toggleReplyBlock(id) {
+		const reply = await this.Reply.findById(id).exec()
+		const currentBlockedStatus = reply.blocked === undefined ? false : reply.blocked;
+		return this.Reply.findOneAndUpdate(
+			{ _id: id },
+			{ blocked: !currentBlockedStatus },
+			{ new: true }
+		);
 	}
 }
 
