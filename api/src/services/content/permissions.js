@@ -17,51 +17,54 @@ const canBlockAnyContent = rule()((parent, args, { user }, info) => {
 	return userPermissions && userPermissions.includes("block:any_content");
 });
 
-const isCreatingOwnContent = rule()(async (parent, { data: { username } }, { user, dataSources }, info) => {
-	const profile = await dataSources.contentAPI.Profile.findOne({
-		username
-	}).exec();
+const isCreatingOwnContent = rule()(
+	async (parent, { data: { username } }, { user, dataSources }, info) => {
+		const profile = await dataSources.contentAPI.Profile.findOne({
+			username
+		}).exec();
 
-	if (!profile || !user || !user.sub) {
-		return false;
-	}
+		if (!profile || !user || !user.sub) {
+			return false;
+		}
 
-	return user.sub === profile.accountId;
+		return user.sub === profile.accountId;
 });
 
-const isEditingOwnPost = rule()(async (parent, { where: { id } }, { user, dataSources }, info) => {
-	if (!user || !user.sub) {
-		return false;
-	}
+const isEditingOwnPost = rule()(
+	async (parent, { where: { id } }, { user, dataSources }, info) => {
+		if (!user || !user.sub) {
+			return false;
+		}
 
-	const profile = await dataSources.contentAPI.Profile.findOne({
-		accountId: user.sub
-	}).exec();
-	const post = await dataSources.contentAPI.post.findById(id);
+		const profile = await dataSources.contentAPI.Profile.findOne({
+			accountId: user.sub
+		}).exec();
+		const post = await dataSources.contentAPI.post.findById(id);
 
-	if (!profile || !post) {
-		return false;
-	}
+		if (!profile || !post) {
+			return false;
+		}
 
-	return profile._id.toString() === post.authorProfileId.toString();
+		return profile._id.toString() === post.authorProfileId.toString();
 });
 
-const isEditingOwnReply = rule()(async (parent, { where: { id } }, { user, dataSources }, info) => {
-	if (!user || !user.sub) {
-		return false
-	}
+const isEditingOwnReply = rule()(
+	async (parent, { where: { id } }, { user, dataSources }, info) => {
+		if (!user || !user.sub) {
+			return false
+		}
 
-	const profile = await dataSources.contentAPI.Profile.findOne({
-		accountId: user.sub
-	}).exec();
+		const profile = await dataSources.contentAPI.Profile.findOne({
+			accountId: user.sub
+		}).exec();
 
-	const reply = await dataSources.contentAPI.Reply.findById(id);
+		const reply = await dataSources.contentAPI.Reply.findById(id);
 
-	if (!profile || !reply) {
-		return false;
-	}
+		if (!profile || !reply) {
+			return false;
+		}
 
-	return profile._id.toString() === reply.authorProfileId.toString();
+		return profile._id.toString() === reply.authorProfileId.toString();
 });
 
 const permissions = shield(
@@ -73,7 +76,7 @@ const permissions = shield(
 			replies: canReadAnyContent,
 			searchPosts: canReadAnyContent
 		},
-		Mutations: {
+		Mutation: {
 			createPost: and(canEditOwnContent, isCreatingOwnContent),
 			createReply: and(canEditOwnContent, isCreatingOwnContent),
 			deletePost: and(canEditOwnContent, isEditingOwnPost),

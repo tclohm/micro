@@ -313,7 +313,7 @@ const typeDefs = gql`
 		"Update an existing reply."
 		updateReply(data: UpdateReplyInput!
 					where: ContentWhereUniqueInput!
-		): Reply!
+				   ): Reply!
 
 		"Deletes a reply to a post."
 		deleteReply(where: ContentWhereUniqueInput!): ID!
