@@ -6,5 +6,8 @@
 			"web"
 		]
 	},
-	"scripts": {}
+	"scripts": {
+		"api:start": "yarn workspace api dev",
+		"web:start": "yarn workspace web start"
+	}
 }
