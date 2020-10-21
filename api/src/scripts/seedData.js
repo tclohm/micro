@@ -101,11 +101,11 @@ async function createAuth0Accounts(rawData) {
 
 	// Create 5 user accounts
 	for (const user of rawData) {
-		
+
 		const account = await auth0.createUser({
 			app_metadata: {
 				groups: [],
-				role: ["author"],
+				roles: ["author"],
 				permissions: authorPermissions
 			},
 			connection: "Username-Password-Authentication",
