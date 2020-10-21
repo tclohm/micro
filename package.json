@@ -8,6 +8,6 @@
 	},
 	"scripts": {
 		"api:start": "yarn workspace api dev",
-		"web:start": "yarn workspace web start"
+		"web:start": "yarn workspace web start",
 	}
 }
