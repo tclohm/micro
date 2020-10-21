@@ -43,8 +43,7 @@ const moderatorPermissions = [
 
 // MARK: -- Delete all existing Auth0 users
 async function deleteAuth0Data() {
-	const users = auth0.getUsers({ per_page: 100, page: 0 });
-
+	const users = await auth0.getUsers({ per_page: 100, page: 0 });
 	for (const user of users) {
 		await auth0.deleteUser({ id: user.user_id });
 	}
@@ -72,7 +71,7 @@ function generateRawData() {
 
 		// Create content
 		const posts = Array.from({ length: 10 }, () => {
-			return faker.lorem.sentence();
+			return { text: faker.lorem.sentence(), media: faker.image.cats() };
 		});
 
 		const replies = Array.from({ length: 10 }, () => {
@@ -89,8 +88,9 @@ function generateRawData() {
 			replies,
 			username: username.toLowerCase()
 		};
+
 		return user 
-	})
+	});
 
 	return fakerData
 }
@@ -100,7 +100,8 @@ async function createAuth0Accounts(rawData) {
 	let accounts = [];
 
 	// Create 5 user accounts
-	for (const user in rawData) {
+	for (const user of rawData) {
+		
 		const account = await auth0.createUser({
 			app_metadata: {
 				groups: [],
@@ -111,7 +112,7 @@ async function createAuth0Accounts(rawData) {
 			email: user.email,
 			password: user.password
 		});
-		account.push(account)
+		accounts.push(account)
 	}
 
 	// Upgrade first user account to a moderator role
@@ -172,7 +173,7 @@ async function createPosts(rawData, profiles) {
 
 		// loop over array posts to create new documents for each post
 		for (let content of postsContent) {
-			const newPost = new Post({ authorProfileId: _id, text: content });
+			const newPost = new Post({ authorProfileId: _id, text: content.text, media: content.media });
 			const savedPost = await newPost.save();
 			posts.push(savedPost);
 		}
