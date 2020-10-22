@@ -6,5 +6,11 @@
 			"web"
 		]
 	},
-	"scripts": {}
+	"scripts": {
+		"dev:api": "yarn workspace api dev",
+		"dev:web": "yarn workspace web start"
+	},
+	"devDependencies": {
+		"yargs": "^16.1.0"
+	}
 }
