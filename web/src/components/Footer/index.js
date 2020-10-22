@@ -11,7 +11,7 @@ const Footer = () => (
 			<Text as="p">
 				MicroFails is Discarded Floppy Disk{" "}
 				<span role="img" aria-label="Floppy Disk and Trash bin emoji">
-					💾 => 🗑
+					💾 ➜ 🗑
 				</span>
 			</Text>
 		</Box>
