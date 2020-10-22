@@ -7,8 +7,8 @@
 		]
 	},
 	"scripts": {
-		"api:start": "yarn workspace api dev",
-		"web:start": "yarn workspace web start"
+		"dev:api": "yarn workspace api dev",
+		"dev:web": "yarn workspace web start"
 	},
 	"devDependencies": {
 		"yargs": "^16.1.0"

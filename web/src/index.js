@@ -7,6 +7,7 @@ import ReactDOM from "react-dom";
 import client from "./graphql/apollo";
 import GlobalStyle from "./styles/global";
 import history from "./routes/history";
+import Routes from "./routes";
 import theme from "./styles/theme";
 
 const App = () => (
