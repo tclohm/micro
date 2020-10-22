@@ -1,17 +1,24 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import { ApolloProvider } from "@apollo/client";
+import { Grommet } from "grommet";
+import { Router } from "react-router-dom";
+import React from "react";
+import ReactDOM from "react-dom";
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+import client from "./graphql/apollo";
+import GlobalStyle from "./styles/global";
+import history from "./routes/history";
+import Routes from "./routes";
+import theme from "./styles/theme";
+
+const App = () => (
+	<ApolloProvider client={client}>
+		<GlobalStyle />
+		<Grommet theme={theme}>
+			<Router history={history}>
+				<Routes />
+			</Router>
+		</Grommet>
+	</ApolloProvider>
 );
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+ReactDOM.render(<App />, document.getElementById("root"));
