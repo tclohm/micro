@@ -14,9 +14,7 @@ const App = () => (
 		<GlobalStyle />
 		<Grommet theme={theme}>
 			<Router history={history}>
-				<div>
-					<p>Hello, world!</p>
-				</div>
+				<Routes />
 			</Router>
 		</Grommet>
 	</ApolloProvider>
