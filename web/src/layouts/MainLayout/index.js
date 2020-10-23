@@ -17,7 +17,8 @@ const MainLayout = ({ centered, children }) => (
 			align={centered ? "center" : "start"}
 			flex={{ grow: 1, shrink: 0 }}
 			justify={centered ? "center" : "start"}
-			margin="medium"
+			margin={centered ? "large": "none"}
+			width="100%"
 		>
 			<Container>{children}</Container>
 		</Box>

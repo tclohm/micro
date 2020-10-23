@@ -1,5 +1,4 @@
-import { Box } from "grommet";
-import { ChatOption } from "grommet-icons";
+import { Distribution, Box, Image, Heading } from "grommet";
 import React from "react";
 
 import AccentButton from "../../components/AccentButton";
@@ -7,16 +6,37 @@ import MainLayout from "../../layouts/MainLayout";
 
 const Index = () => {
 	return (
-		<MainLayout centered>
-			<Box align="center" margin={{ top: "small" }} width="100%">
-				<ChatOption color="brand" size="300px" />
-				<div>
+		<MainLayout>
+			<Box 
+				align="center" 
+				margin={{ top: "none" }}
+				width="100%"
+				background={{ color: "#F4EED2" }} 
+				height="medium"
+				direction="row"
+				justify="evenly"
+				>
+				<Box 
+					align="start"
+					margin="large"
+				>
+					<Heading level="3">
+					Microfails is the leading destination to try new things and fail with bravado
+					</Heading>
 					<AccentButton
-						label="Login / Sign-up"
-						margin={{ top: "medium" }}
+						inputWidth='9rem'
+						inputColor='white'
+						inputBGColor='#FFC843'
+						inputBorder='2px solid #FFC843'
+						inputHoverColor='#F7D380'
+						label="Sign up"
+						inputMargin="1rem 0 0 0"
 						onClick={() => console.log("Clicked!")}
 					/>
-				</div>
+				</Box>
+				<Box height="medium" width="medium">
+					<Image fit="contain" src={process.env.PUBLIC_URL + 'placeholder.png'} />
+				</Box>
 			</Box>
 		</MainLayout>
 	);
