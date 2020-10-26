@@ -9,7 +9,7 @@ const typeDefs = gql`
 	An account is a user that provides authentication details.
 	"""
 	type Account @key(fields: "id") {
-		"unqiue ID associated with the account"
+		"unique ID associated with the account"
 		id: ID!
 		"The date and time the account was created"
 		createdAt: DateTime!
@@ -19,6 +19,18 @@ const typeDefs = gql`
 		isBlocked: Boolean
 		"Account has moderator role"
 		isModerator: Boolean
+	}
+
+
+	type AccountAndToken {
+		"unique ID associated with the account"
+		id: ID
+		"The date and time the account was created"
+		createdAt: DateTime!
+		"Email associated with the account (unique)"
+		email: String!
+		"Token returned with account"
+		token: String!
 	}
 
 	extend type Query {
@@ -69,7 +81,7 @@ const typeDefs = gql`
 		changeAccountModeratorRole(where: AccountWhereUniqueInput!): Account!
 
 		"Creates a new account."
-		createAccount(data: CreateAccountInput): Account!
+		createAccount(data: CreateAccountInput): AccountAndToken!
 
 		"Deletes an account."
 		deleteAccount(where: AccountWhereUniqueInput): Boolean!

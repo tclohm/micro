@@ -1,7 +1,10 @@
 import { DataSource } from "apollo-datasource";
-import { UserInputError } from "apollo-server";
+import { UserInputError, ApolloError } from "apollo-server";
+import { jwtDecode } from "jwt-decode";
 
 import getToken from "../../../lib/getToken";
+
+import { createToken, hashPassword, verifyPassword } from "../../../config/util";
 
 class AccountsDataSource extends DataSource {
 
@@ -36,8 +39,17 @@ class AccountsDataSource extends DataSource {
 		return this.Account.find({});
 	}
 
-	createAccount(email, password) {
-		return this.Account.create({
+	async createAccount(email, password) {
+
+		const existingEmail = await this.Account.findOne(email).exec();
+
+		if (existingEmail) {
+			throw new ApolloError("Email already exists");
+		}
+
+		const hashedPassword = await hashPassword(password);
+
+		const account = new this.Account({
 			app_metadata: {
 				groups: [],
 				roles: ["author"],
@@ -47,6 +59,24 @@ class AccountsDataSource extends DataSource {
 			email,
 			password
 		});
+
+		const savedAccount = await account.save();
+
+		if (savedAccount) {
+			const token = createToken(savedAccount);
+			const decodedToken = jwtDecode(token);
+			const expiresAt = decodedToken.exp;
+		}
+
+		const { _id, email, createdAt } = savedAccount
+
+		return {
+			_id,
+			email,
+			createdAt,
+			token
+		}
+
 	}
 
 	async changeAccountBlockedStatus(id) {
