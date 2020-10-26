@@ -6,6 +6,8 @@ import mongoose from "mongoose";
 
 import auth0 from "../config/auth0";
 import initMongoose from "../config/mongoose";
+
+import Account from "../models/Account";
 import Post from "../models/Post";
 import Profile from "../models/Profile";
 import Reply from "../models/Reply";

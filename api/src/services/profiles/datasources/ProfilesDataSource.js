@@ -5,9 +5,9 @@ import gravatarUrl from "gravatar-url";
 import Pagination from "../../../lib/Pagination";
 
 class ProfilesDataSource extends DataSource {
-	constructor({ auth0, Profile }) {
+	constructor({ Account, Profile }) {
 		super();
-		this.auth0 = auth0;
+		this.Account = Account;
 		this.Profile = Profile;
 		this.pagination = new Pagination(Profile);
 	}
@@ -37,7 +37,7 @@ class ProfilesDataSource extends DataSource {
 	}
 
 	async createProfile(profile) {
-		const account = await this.auth0.getUser({ id: profile.accountId });
+		const account = await this.Account.findById({ id: profile.accountId });
 		const avatar = gravatarUrl(account.email, { default: "mm" });
 		profile.avatar = avatar;
 		const newProfile = new this.Profile(profile)

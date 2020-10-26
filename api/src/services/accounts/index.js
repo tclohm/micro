@@ -2,8 +2,8 @@ import { ApolloServer } from "apollo-server";
 import { applyMiddleware } from "graphql-middleware";
 import { buildFederatedSchema } from "@apollo/federation";
 
-import AccountsDataSoure from "./datasources/AccountsDataSource";
-import auth0 from "../../config/auth0";
+import AccountsDataSource from "./datasources/AccountsDataSource";
+import Account from "../../models/Account";
 import permissions from "./permissions";
 import resolvers from "./resolvers";
 import typeDefs from "./typeDefs";
@@ -25,7 +25,7 @@ import typeDefs from "./typeDefs";
 		},
 		dataSources: () => {
 			return {
-				accountsAPI: new AccountsDataSoure({ auth0 })
+				accountsAPI: new AccountsDataSource({ Account })
 			};
 		}
 	});

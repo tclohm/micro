@@ -6,10 +6,10 @@ const typeDefs = gql`
 	"""
 	scalar DateTime
 	"""
-	An account is an Auth0 user that provides authentication details.
+	An account is a user that provides authentication details.
 	"""
 	type Account @key(fields: "id") {
-		"unqiue Auth0 ID associated with the account"
+		"unqiue ID associated with the account"
 		id: ID!
 		"The date and time the account was created"
 		createdAt: DateTime!
@@ -22,11 +22,11 @@ const typeDefs = gql`
 	}
 
 	extend type Query {
-		"Retrieves a single account by Auth0 ID."
+		"Retrieves a single account by ID."
 		account(id: ID!): Account!
 		"Retrieves a list of accounts."
 		accounts: [Account]
-		"Retrieves the current logges in account from Auth0."
+		"Retrieves the current logges in account."
 		viewer: Account
 	}
 
@@ -44,7 +44,7 @@ const typeDefs = gql`
 	Provides the unique ID of an existing account
 	"""
 	input AccountWhereUniqueInput {
-		"Unique Auth0 ID associated with the account"
+		"Unique ID associated with the account"
 		id: ID!
 	}
 
