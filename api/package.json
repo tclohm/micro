@@ -33,6 +33,7 @@
 		"jwt-decode": "^3.0.0",
 		"mongoose": "^5.10.8",
 		"nodemon": "^2.0.4",
+		"rand-token": "^1.0.1",
 		"validator": "^13.1.17",
 		"wait-on": "^5.2.0"
 	},

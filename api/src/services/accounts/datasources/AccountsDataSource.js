@@ -1,8 +1,6 @@
 import { DataSource } from "apollo-datasource";
 import { UserInputError, ApolloError } from "apollo-server";
-import { jwtDecode } from "jwt-decode";
-
-import getToken from "../../../lib/getToken";
+import jwtDecode from "jwt-decode";
 
 import { createToken, hashPassword, verifyPassword } from "../../../config/util";
 
@@ -68,7 +66,7 @@ class AccountsDataSource extends DataSource {
 			const expiresAt = decodedToken.exp;
 		}
 
-		const { _id, email, createdAt } = savedAccount
+		const { _id, createdAt } = savedAccount
 
 		return {
 			_id,

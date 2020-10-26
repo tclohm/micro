@@ -4,7 +4,6 @@ import faker from "faker";
 import gravatarUrl from "gravatar-url";
 import mongoose from "mongoose";
 
-import auth0 from "../config/auth0";
 import initMongoose from "../config/mongoose";
 
 import Account from "../models/Account";

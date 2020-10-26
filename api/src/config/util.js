@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
+import randToken from "rand-token";
 import { UserInputError } from "apollo-server";
 
 export const createToken = account => {
@@ -11,8 +12,8 @@ export const createToken = account => {
 	}
 	const roles = account.app_metadata.roles
 
-	if (!account.app_metadata.roles) {
-		throw new UserInputError(
+	if (!roles) {
+		throw new Error(
 			"No account role specified."
 		);
 	}
@@ -27,7 +28,7 @@ export const createToken = account => {
 			aud: process.env.ACCOUNT_AUDIENCE,
 		},
 		process.env.JWT_SECRET,
-		{ algorithm: 'HS256', expiresIn: '1h' }
+		{ algorithm: 'HS256', expiresIn: '15m' }
 	);
 };
 
@@ -49,4 +50,8 @@ export const hashPassword = password => {
 
 export const verifyPassword = (passwordAttempt, hashedPassword) => {
 	return bcrypt.compare(passwordAttempt, hashedPassword);
-}; 
+};
+
+export const getRefreshToken = () => {
+	return randToken.uid(64);
+};
