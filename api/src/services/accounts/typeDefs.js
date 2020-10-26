@@ -6,10 +6,10 @@ const typeDefs = gql`
 	"""
 	scalar DateTime
 	"""
-	An account is an Auth0 user that provides authentication details.
+	An account is a user that provides authentication details.
 	"""
 	type Account @key(fields: "id") {
-		"unqiue Auth0 ID associated with the account"
+		"unique ID associated with the account"
 		id: ID!
 		"The date and time the account was created"
 		createdAt: DateTime!
@@ -21,12 +21,24 @@ const typeDefs = gql`
 		isModerator: Boolean
 	}
 
+
+	type AccountAndToken {
+		"unique ID associated with the account"
+		id: ID
+		"The date and time the account was created"
+		createdAt: DateTime!
+		"Email associated with the account (unique)"
+		email: String!
+		"Token returned with account"
+		token: String!
+	}
+
 	extend type Query {
-		"Retrieves a single account by Auth0 ID."
+		"Retrieves a single account by ID."
 		account(id: ID!): Account!
 		"Retrieves a list of accounts."
 		accounts: [Account]
-		"Retrieves the current logges in account from Auth0."
+		"Retrieves the current logges in account."
 		viewer: Account
 	}
 
@@ -44,7 +56,7 @@ const typeDefs = gql`
 	Provides the unique ID of an existing account
 	"""
 	input AccountWhereUniqueInput {
-		"Unique Auth0 ID associated with the account"
+		"Unique ID associated with the account"
 		id: ID!
 	}
 
@@ -69,7 +81,7 @@ const typeDefs = gql`
 		changeAccountModeratorRole(where: AccountWhereUniqueInput!): Account!
 
 		"Creates a new account."
-		createAccount(data: CreateAccountInput): Account!
+		createAccount(data: CreateAccountInput): AccountAndToken!
 
 		"Deletes an account."
 		deleteAccount(where: AccountWhereUniqueInput): Boolean!

@@ -114,7 +114,7 @@ const typeDefs = gql`
 
 	extend type Mutation {
 
-		"Creates a new profile tied to an Auth0 account."
+		"Creates a new profile tied to an account."
 		createProfile(data: CreateProfileInput!): Profile!
 
 		"Updates a user's profile details."

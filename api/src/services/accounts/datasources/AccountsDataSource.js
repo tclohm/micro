@@ -1,7 +1,8 @@
 import { DataSource } from "apollo-datasource";
-import { UserInputError } from "apollo-server";
+import { UserInputError, ApolloError } from "apollo-server";
+import jwtDecode from "jwt-decode";
 
-import getToken from "../../../lib/getToken";
+import { createToken, hashPassword, verifyPassword } from "../../../config/util";
 
 class AccountsDataSource extends DataSource {
 
@@ -22,22 +23,31 @@ class AccountsDataSource extends DataSource {
 		"block:any_content"
 	];
 
-	constructor({ auth0 }) {
+	constructor({ Account }) {
 		super();
-		this.auth0 = auth0;
+		this.Account = Account;
 	}
 
 	// MARK: -- CRUD
 	getAccountById(id) {
-		return this.auth0.getUser({ id });
+		return this.Account.findById(id);
 	}
 
 	getAccounts() {
-		return this.auth0.getUsers();
+		return this.Account.find({});
 	}
 
-	createAccount(email, password) {
-		return this.auth0.createUser({
+	async createAccount(email, password) {
+
+		const existingEmail = await this.Account.findOne(email).exec();
+
+		if (existingEmail) {
+			throw new ApolloError("Email already exists");
+		}
+
+		const hashedPassword = await hashPassword(password);
+
+		const account = new this.Account({
 			app_metadata: {
 				groups: [],
 				roles: ["author"],
@@ -47,22 +57,40 @@ class AccountsDataSource extends DataSource {
 			email,
 			password
 		});
+
+		const savedAccount = await account.save();
+
+		if (savedAccount) {
+			const token = createToken(savedAccount);
+			const decodedToken = jwtDecode(token);
+			const expiresAt = decodedToken.exp;
+		}
+
+		const { _id, createdAt } = savedAccount
+
+		return {
+			_id,
+			email,
+			createdAt,
+			token
+		}
+
 	}
 
 	async changeAccountBlockedStatus(id) {
-		const  { blocked } = await this.auth0.getUser({ id })
-		return this.auth0.updateUser({ id }, { blocked: !blocked });
+		const  { blocked } = await this.Account.findById(id)
+		return this.Account.findByIdAndUpdate(id, { blocked: !blocked });
 	}
 
 	async changeAccountModeratorRole(id) {
-		const user = await this.auth0.getUser({ id });
+		const user = await this.Account.findById(id);
 		const isModerator = user.app_metadata.roles.includes("moderator");
 		const permissions = isModerator 
 		? this.authorPermissions 
 		: this.authorPermissions.concat(this.moderatorPermissions)
 
-		return this.auth0.updateUser(
-			{ id },
+		return this.Account.findOneAndUpdate(
+			id,
 			{
 				app_metadata: {
 					groups: [],
@@ -89,16 +117,16 @@ class AccountsDataSource extends DataSource {
 		}
 
 		if (!email) {
-			const user = await this.auth0.getUser({ id });
+			const user = await this.Account.findById(id);
 			await getToken(user.email, password);
-			return this.auth0.updateUser({ id }, { password: newPassword });
+			return this.Account.findByIdAndUpdate(id, { password: newPassword });
 		}
 
-		return this.auth0.updateUser({ id }, { email });
+		return this.Account.findByIdAndUpdate(id, { email });
 	}
 
 	async deleteAccount(id) {
-		await this.auth0.deleteUser({ id });
+		await this.Account.findByIdAndDelete(id);
 		return true;
 	}
 }
