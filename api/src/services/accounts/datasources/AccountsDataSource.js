@@ -2,7 +2,7 @@ import { DataSource } from "apollo-datasource";
 import { UserInputError, ApolloError } from "apollo-server";
 import jwtDecode from "jwt-decode";
 
-import { createToken, hashPassword, verifyPassword } from "../../../config/util";
+import { createToken, hashPassword, verifyPassword, getRefreshToken } from "../../../config/util";
 
 class AccountsDataSource extends DataSource {
 
@@ -37,44 +37,93 @@ class AccountsDataSource extends DataSource {
 		return this.Account.find({});
 	}
 
-	async createAccount(email, password) {
+	async createAccount({ email, password }) {
+		try {
 
-		const existingEmail = await this.Account.findOne(email).exec();
+			const existingEmail = await this.Account.findOne(email).exec();
 
-		if (existingEmail) {
-			throw new ApolloError("Email already exists");
+			if (existingEmail) {
+				throw new ApolloError("Email already exists");
+			}
+
+			const hashedPassword = await hashPassword(password);
+
+			const accountData = new this.Account({
+				app_metadata: {
+					groups: [],
+					roles: ["author"],
+					connection: "Username-Password-Authentication",
+					permissions: this.authorPermissions
+				},
+				identities: [],
+				email: email.toLowerCase(),
+				password: hashedPassword,
+				blocked: false
+			});
+
+			const savedAccount = await accountData.save();
+
+			if (savedAccount) {
+				const token = createToken(savedAccount);
+				const decodedToken = jwtDecode(token);
+				const expiresAt = decodedToken.exp;
+
+				const { _id, createdAt } = savedAccount;
+
+				return {
+					token,
+					expiresAt
+				};
+
+			} else {
+				throw new ApolloError(
+					"There was a problem creating your account"
+				);
+			}
+
+		} catch (err) {
+			return err;
 		}
+	}
 
-		const hashedPassword = await hashPassword(password);
+	async loginAccount({ email, password }) {
+		try {
+			const account = await Account.findOne({
+				email
+			}).exec()
 
-		const account = new this.Account({
-			app_metadata: {
-				groups: [],
-				roles: ["author"],
-				permissions: this.authorPermissions
-			},
-			connection: "Username-Password-Authentication",
-			email,
-			password
-		});
+			if (!account) {
+				throw new UserInputError(
+					"Wrong email/username or password"
+				);
+			}
 
-		const savedAccount = await account.save();
+			const passwordValid = await verifyPassword(
+				password,
+				account.password
+			);
 
-		if (savedAccount) {
-			const token = createToken(savedAccount);
-			const decodedToken = jwtDecode(token);
-			const expiresAt = decodedToken.exp;
+			if (passwordValid) {
+				const { ...rest } = account;
+				const userInfo = Object.assign({}, { ...rest });
+
+				const token = createToken(userInfo);
+
+				const decodedToken = jwtDecode(token);
+				const expiresAt = decodedToken.exp;
+
+				return {
+					token,
+					expiresAt
+				}
+			} else {
+				throw new UserInputError(
+					"Wrong email or password"
+				)
+			}
+		} catch (err) {
+			return err;
 		}
-
-		const { _id, createdAt } = savedAccount
-
-		return {
-			_id,
-			email,
-			createdAt,
-			token
-		}
-
 	}
 
 	async changeAccountBlockedStatus(id) {

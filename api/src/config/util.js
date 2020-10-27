@@ -23,7 +23,6 @@ export const createToken = account => {
 			sub: account._id,
 			email: account.email,
 			app_metadata: account.app_metadata,
-			user_metadata: account.user_metadata,
 			iss: process.env.ACCOUNT_ISSUER,
 			aud: process.env.ACCOUNT_AUDIENCE,
 		},
