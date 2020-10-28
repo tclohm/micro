@@ -37,10 +37,10 @@ class AccountsDataSource extends DataSource {
 		return this.Account.find({});
 	}
 
-	async createAccount({ email, password }) {
+	async createAccount(email, password) {
 		try {
 
-			const existingEmail = await this.Account.findOne(email).exec();
+			const existingEmail = await this.Account.findOne({ email }).exec();
 
 			if (existingEmail) {
 				throw new ApolloError("Email already exists");
@@ -64,9 +64,18 @@ class AccountsDataSource extends DataSource {
 			const savedAccount = await accountData.save();
 
 			if (savedAccount) {
-				const token = createToken(savedAccount);
-				const decodedToken = jwtDecode(token);
+				console.log(savedAccount)
+				const token = await createToken(savedAccount);
+
+				console.log("t", token)
+
+				const decodedToken = await jwtDecode(token);
+
+				console.log("dt", decodedToken);
+
 				const expiresAt = decodedToken.exp;
+
+				console.log(expiresAt);
 
 				const { _id, createdAt } = savedAccount;
 
@@ -82,11 +91,12 @@ class AccountsDataSource extends DataSource {
 			}
 
 		} catch (err) {
+			console.log("At error")
 			return err;
 		}
 	}
 
-	async loginAccount({ email, password }) {
+	async logIntoAccount(email, password) {
 		try {
 			const account = await Account.findOne({
 				email

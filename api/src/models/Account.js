@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const accountSchema = new mongoose.Schema({
-	createdAt: {
+	created_at: {
 		type: Date,
 		default: Date.now()
 	},
