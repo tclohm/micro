@@ -22,15 +22,11 @@ const typeDefs = gql`
 	}
 
 
-	type AccountAndToken {
-		"unique ID associated with the account"
-		id: ID
-		"The date and time the account was created"
-		createdAt: DateTime!
-		"Email associated with the account (unique)"
-		email: String!
+	type TokenAndExpires {
 		"Token returned with account"
-		token: String!
+		token: String
+		"Token expiration with account"
+		expiresAt: String
 	}
 
 	extend type Query {
@@ -81,7 +77,10 @@ const typeDefs = gql`
 		changeAccountModeratorRole(where: AccountWhereUniqueInput!): Account!
 
 		"Creates a new account."
-		createAccount(data: CreateAccountInput): AccountAndToken!
+		createAccount(data: CreateAccountInput): TokenAndExpires!
+
+		"Log into a account."
+		logIntoAccount(data: CreateAccountInput): TokenAndExpires!
 
 		"Deletes an account."
 		deleteAccount(where: AccountWhereUniqueInput): Boolean!

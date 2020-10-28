@@ -45,11 +45,17 @@ const resolvers = {
 		changeAccountBlockedStatus(parent, { where: { id } }, { dataSources }, info) {
 			return dataSources.accountsAPI.changeAccountBlockedStatus(id);
 		},
+		
 		changeAccountModeratorRole(parent, { where: { id } }, { dataSources }, info) {
 			return dataSources.accountsAPI.changeAccountModeratorRole(id);
 		},
+
 		createAccount(parent, { data: { email, password } }, { dataSources }, info) {
 			return dataSources.accountsAPI.createAccount(email, password);
+		},
+
+		logIntoAccount(parent, { data: { email, password } }, { dataSources }, info) {
+			return dataSources.accountsAPI.logIntoAccount(email, password);
 		},
 
 		deleteAccount(parent, { where: { id } }, { dataSources }, info) {

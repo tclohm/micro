@@ -10,11 +10,11 @@ export const createToken = account => {
 			"No account was provided."
 		);
 	}
-	const roles = account.app_metadata.roles
+	const app_metadata = account.app_metadata
 
-	if (!roles) {
+	if (!app_metadata) {
 		throw new Error(
-			"No account role specified."
+			"No account metadata specified."
 		);
 	}
 
@@ -23,12 +23,11 @@ export const createToken = account => {
 			sub: account._id,
 			email: account.email,
 			app_metadata: account.app_metadata,
-			user_metadata: account.user_metadata,
 			iss: process.env.ACCOUNT_ISSUER,
 			aud: process.env.ACCOUNT_AUDIENCE,
 		},
 		process.env.JWT_SECRET,
-		{ algorithm: 'HS256', expiresIn: '15m' }
+		{ algorithm: "RS256", expiresIn: "15m" }
 	);
 };
 
