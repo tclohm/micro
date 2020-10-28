@@ -8,7 +8,7 @@ const jwtCheck = jwt({
 	secret: process.env.JWT_SECRET,
 	audience: process.env.ACCOUNT_AUDIENCE,
 	issuer: process.env.ACCOUNT_ISSUER,
-	algorithms: ["RS256"],
+	algorithms: ["HS256"],
 	credentialsRequired: false
 });
 

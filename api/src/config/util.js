@@ -5,16 +5,9 @@ import { UserInputError } from "apollo-server";
 
 export const createToken = account => {
 	// MARK: -- sign the JWT
-	if (!account) {
+	if (!account.app_metadata.roles) {
 		throw new UserInputError(
-			"No account was provided."
-		);
-	}
-	const app_metadata = account.app_metadata
-
-	if (!app_metadata) {
-		throw new Error(
-			"No account metadata specified."
+			"No account role specified."
 		);
 	}
 
@@ -27,7 +20,7 @@ export const createToken = account => {
 			aud: process.env.ACCOUNT_AUDIENCE,
 		},
 		process.env.JWT_SECRET,
-		{ algorithm: "RS256", expiresIn: "15m" }
+		{ algorithm: "HS256", expiresIn: "15m" }
 	);
 };
 
