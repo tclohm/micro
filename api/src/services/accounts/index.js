@@ -5,6 +5,7 @@ import { buildFederatedSchema } from "@apollo/federation";
 import AccountsDataSource from "./datasources/AccountsDataSource";
 import initMongoose from "../../config/mongoose";
 import Account from "../../models/Account";
+import Token from "../../models/Token";
 import permissions from "./permissions";
 import resolvers from "./resolvers";
 import typeDefs from "./typeDefs";
@@ -26,7 +27,7 @@ import typeDefs from "./typeDefs";
 		},
 		dataSources: () => {
 			return {
-				accountsAPI: new AccountsDataSource({ Account })
+				accountsAPI: new AccountsDataSource({ Account, Token })
 			};
 		}
 	});

@@ -1,33 +1,53 @@
-import bent from "bent";
+import { GraphQLObjectType } from "graphql";
 import Account from "../models/Account";
-import { createToken, hashPassword, verifyPassword, getRefreshToken } from "../../../config/util";
+import Token from "../models/Token";
+import { createToken, hashPassword, verifyPassword, getRefreshToken } from "../config/util";
 
-export default async function(username, password) {
-
-	const post = bent(process.env.ACCOUNTS_SERVICE_URL, "POST", "json", 200);
-	const response = await post()
-
+const saveRefreshToken = async (refreshToken, accountId) => {
 	try {
-		
-		const accountFromToken = await Token.findOne({
+		const storedRefreshToken = new Token({
 			refreshToken,
-			expiresAt: { $gte: new Date() }
-		}).select('account');
-
-		if (!accountFromToken) {
-			console.error("Not authorized")
-		}
-
-		const account = await Account.findOne({
-			_id: accountFromToken.account
+			account: accountId,
+			expiresAt: '15m'
 		});
+		console.log(storedRefreshToken);
+		return await storedRefreshToken.save();
+	} catch (err) {
+		console.error(err);
+		return err;
+	}
+};
 
-		if (!account) {
-			console.error("Not authorized")
+export default async function(email, password) {
+	console.log("in getToken")
+	console.log(email, password)
+	try {
+		const existingAccount = await Account.findOne({ email }).exec();
+
+		console.log(existingAccount)
+		
+		if (!existingAccount) {
+			console.error("Could not find account");
 		}
 
-		const token = createToken(account);
+		const passwordValid = await verifyPassword(password, existingAccount.password);
 
-		console.log(token)
+		if (passwordValid) {
+			const { created_at, ...rest } = existingAccount;
+			const userInfo = Object.assign({}, { ...rest });
+
+			console.log(userInfo);
+
+			const token = createToken(userInfo);
+			const expiresAt = '15m'
+
+			const refreshToken = getRefreshToken();
+
+			await saveRefreshToken(refreshToken, userInfo._id);
+
+			console.log(refreshToken)
+		}
+	} catch (err) {
+		console.error(err);
 	}
 }

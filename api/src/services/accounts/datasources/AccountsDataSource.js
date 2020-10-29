@@ -23,9 +23,10 @@ class AccountsDataSource extends DataSource {
 		"block:any_content"
 	];
 
-	constructor({ Account }) {
+	constructor({ Account, Token }) {
 		super();
 		this.Account = Account;
+		this.Token = Token;
 	}
 
 	// MARK: -- CRUD
@@ -64,20 +65,22 @@ class AccountsDataSource extends DataSource {
 			const savedAccount = await accountData.save();
 
 			if (savedAccount) {
-				console.log(savedAccount)
-				const token = await createToken(savedAccount);
+				
+				const token = createToken(savedAccount);
 
-				console.log("t", token)
-
-				const decodedToken = await jwtDecode(token);
-
-				console.log("dt", decodedToken);
+				const decodedToken = jwtDecode(token);
 
 				const expiresAt = decodedToken.exp;
 
-				console.log(expiresAt);
-
 				const { _id, createdAt } = savedAccount;
+
+				const tokenData = new this.Token({
+					token,
+					account: savedAccount._id,
+					expiresAt
+				})
+
+				const savedToken = await tokenData.save();
 
 				return {
 					token,
@@ -91,7 +94,7 @@ class AccountsDataSource extends DataSource {
 			}
 
 		} catch (err) {
-			console.log("At error")
+			console.log("error 97 AccountsDataSource", err)
 			return err;
 		}
 	}
