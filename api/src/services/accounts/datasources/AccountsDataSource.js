@@ -23,9 +23,10 @@ class AccountsDataSource extends DataSource {
 		"block:any_content"
 	];
 
-	constructor({ Account }) {
+	constructor({ Account, Token }) {
 		super();
 		this.Account = Account;
+		this.Token = Token;
 	}
 
 	// MARK: -- CRUD
@@ -73,6 +74,14 @@ class AccountsDataSource extends DataSource {
 
 				const { _id, createdAt } = savedAccount;
 
+				const tokenData = new this.Token({
+					token,
+					account: savedAccount._id,
+					expiresAt
+				})
+
+				const savedToken = await tokenData.save();
+
 				return {
 					token,
 					expiresAt
@@ -85,7 +94,7 @@ class AccountsDataSource extends DataSource {
 			}
 
 		} catch (err) {
-			console.log("error 88 AccountsDataSource", err)
+			console.log("error 97 AccountsDataSource", err)
 			return err;
 		}
 	}
