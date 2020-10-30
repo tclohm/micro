@@ -24,7 +24,6 @@ const server = new ApolloServer({
 	gateway,
 	subscriptions: false,
 	context: ({ req, res }) => {
-		console.log(res)
 		const user = req.user || null
 		return { user }
 	}
