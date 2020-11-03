@@ -2,7 +2,7 @@ import { DataSource } from "apollo-datasource";
 import { UserInputError, ApolloError } from "apollo-server";
 import jwtDecode from "jwt-decode";
 
-import { createToken, hashPassword, verifyPassword, getRefreshToken } from "../../../config/util";
+import { createToken, hashPassword, verifyPassword, getDatePlusThirtyMinutes, getRefreshToken } from "../../../config/util";
 
 class AccountsDataSource extends DataSource {
 
@@ -67,9 +67,7 @@ class AccountsDataSource extends DataSource {
 			if (savedAccount) {
 				
 				const token = createToken(savedAccount);
-				const expiresAt = () => {
-					return new Date(new Date().valueOf() + 1200)
-				}
+				const expiresAt = getDatePlusThirtyMinutes();
 
 				const { _id, createdAt } = savedAccount;
 
@@ -93,7 +91,7 @@ class AccountsDataSource extends DataSource {
 			}
 
 		} catch (err) {
-			console.log("error 97 AccountsDataSource", err)
+			console.log("error 94 AccountsDataSource", err)
 			return err;
 		}
 	}
