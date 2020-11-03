@@ -47,3 +47,17 @@ export const verifyPassword = (passwordAttempt, hashedPassword) => {
 export const getRefreshToken = () => {
 	return randToken.uid(64);
 };
+
+export const saveRefreshToken = async (refreshToken, userId) => {
+		try {
+		const storedRefreshToken = new Token({
+		  refreshToken,
+		  user: userId,
+		  expiresAt: getDatePlusOneWeek()
+		});
+
+	    return await storedRefreshToken.save();
+	  } catch (err) {
+	    return err;
+	  }
+	}

@@ -67,10 +67,9 @@ class AccountsDataSource extends DataSource {
 			if (savedAccount) {
 				
 				const token = createToken(savedAccount);
-
-				const decodedToken = jwtDecode(token);
-
-				const expiresAt = decodedToken.exp;
+				const expiresAt = () => {
+					return new Date(new Date().valueOf() + 1200)
+				}
 
 				const { _id, createdAt } = savedAccount;
 
