@@ -82,7 +82,7 @@ const typeDefs = gql`
 		createAccount(data: CreateAccountInput): Token!
 
 		"Log into a account."
-		logIntoAccount(data: CreateAccountInput): Token!
+		authenticate(data: CreateAccountInput): Token!
 
 		"Deletes an account."
 		deleteAccount(where: AccountWhereUniqueInput): Boolean!

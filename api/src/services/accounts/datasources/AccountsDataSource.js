@@ -45,7 +45,7 @@ class AccountsDataSource extends DataSource {
 			const token = await this.Token.findOneAndUpdate(
 				accountId, 
 			{
-				refreshToken,
+				refreshToken: refreshToken,
 				expiresAt: getDatePlusThirtyMinutes()
 			}
 			).exec()
@@ -53,6 +53,7 @@ class AccountsDataSource extends DataSource {
 			if (!token) {
 				throw new ApolloError("Error updating token");
 			}
+
 			return token
 
 		} catch (err) {
@@ -92,9 +93,6 @@ class AccountsDataSource extends DataSource {
 				
 				const token = createToken(savedAccount);
 				const expiresAt = getDatePlusThirtyMinutes();
-
-				console.log(token);
-
 				const { _id } = savedAccount;
 
 				const tokenData = this.Token({
@@ -105,33 +103,33 @@ class AccountsDataSource extends DataSource {
 
 				const savedToken = await tokenData.save();
 
-				if (savedToken) {
-
-					return savedToken
-
-				} else {
+				if (!savedToken) {
 
 					throw new ApolloError(
 						"Token creation error"
-					)
+					);
 
 				}
 
+				return savedToken;
+
+				
 			} else {
+
 				throw new ApolloError(
 					"There was a problem creating your account"
 				);
+
 			}
 
 		} catch (err) {
-			console.log("error 94 AccountsDataSource", err)
 			return err;
 		}
 	}
 
-	async logIntoAccount(email, password) {
+	async authenticate(email, password) {
 		try {
-			const account = await Account.findOne({
+			const account = await this.Account.findOne({
 				email
 			}).exec()
 
@@ -147,25 +145,32 @@ class AccountsDataSource extends DataSource {
 			);
 
 			if (passwordValid) {
-				const { ...rest } = account;
+				const { password, ...rest } = account;
 				const userInfo = Object.assign({}, { ...rest });
+				const token = createToken(userInfo._doc);
+				const expiresAt = getDatePlusThirtyMinutes();
 
-				const token = createToken(userInfo);
+				const refreshToken = getRefreshToken();
 
-				const decodedToken = jwtDecode(token);
-				const expiresAt = decodedToken.exp;
+				const savedRefToken = await this.saveRefreshToken(
+					refreshToken, 
+					{ accountId: userInfo._doc._id }
+				);
 
-				return {
-					token,
-					expiresAt
-				}
+				return savedRefToken;
+
 			} else {
+
 				throw new UserInputError(
 					"Wrong email or password"
-				)
+				);
+
 			}
+
 		} catch (err) {
+
 			return err;
+
 		}
 	}
 

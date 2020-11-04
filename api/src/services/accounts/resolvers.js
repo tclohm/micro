@@ -54,8 +54,8 @@ const resolvers = {
 			return dataSources.accountsAPI.createAccount(email, password);
 		},
 
-		logIntoAccount(parent, { data: { email, password } }, { dataSources }, info) {
-			return dataSources.accountsAPI.logIntoAccount(email, password);
+		authenticate(parent, { data: { email, password } }, { dataSources }, info) {
+			return dataSources.accountsAPI.authenticate(email, password);
 		},
 
 		deleteAccount(parent, { where: { id } }, { dataSources }, info) {
