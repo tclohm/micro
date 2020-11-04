@@ -2,7 +2,6 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import randToken from "rand-token";
 import { UserInputError } from "apollo-server";
-import Token from "../models/Token";
 
 export const createToken = account => {
 	// MARK: -- sign the JWT
@@ -21,7 +20,7 @@ export const createToken = account => {
 			aud: process.env.ACCOUNT_AUDIENCE,
 		},
 		process.env.JWT_SECRET,
-		{ algorithm: "HS256", expiresIn: "15m" }
+		{ algorithm: "HS256", expiresIn: "30m" }
 	);
 };
 
@@ -57,20 +56,3 @@ export const getDatePlusThirtyMinutes = () => {
 
 // ( 7 days ), ( 24 hours ), ( 3600 milliseconds * 1000 ) = 60 mins
 // const oneWeek = 7 * 24 * 3600 * 1000
-
-export const saveRefreshToken = async (refreshToken, accountId) => {
-	try {
-
-		const storedRefreshToken = new Token({
-		  refreshToken,
-		  account: accountId,
-		  expiresAt: getDatePlusThirtyMinutes()
-		});
-
-		return await storedRefreshToken.save();
-
-	} catch (err) {
-
-	    return err;
-	}
-};

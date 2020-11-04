@@ -22,9 +22,11 @@ const typeDefs = gql`
 	}
 
 
-	type TokenAndExpires {
+	type Token {
 		"Token returned with account"
-		token: String
+		refreshToken: String
+		"Tokens owner"
+		accountId: ID
 		"Token expiration with account"
 		expiresAt: String
 	}
@@ -77,10 +79,10 @@ const typeDefs = gql`
 		changeAccountModeratorRole(where: AccountWhereUniqueInput!): Account!
 
 		"Creates a new account."
-		createAccount(data: CreateAccountInput): TokenAndExpires!
+		createAccount(data: CreateAccountInput): Token!
 
 		"Log into a account."
-		logIntoAccount(data: CreateAccountInput): TokenAndExpires!
+		logIntoAccount(data: CreateAccountInput): Token!
 
 		"Deletes an account."
 		deleteAccount(where: AccountWhereUniqueInput): Boolean!

@@ -38,6 +38,30 @@ class AccountsDataSource extends DataSource {
 		return this.Account.find({});
 	}
 
+	async saveRefreshToken (refreshToken, accountId){
+		
+		try {
+
+			const token = await this.Token.findOneAndUpdate(
+				accountId, 
+			{
+				refreshToken,
+				expiresAt: getDatePlusThirtyMinutes()
+			}
+			).exec()
+			
+			if (!token) {
+				throw new ApolloError("Error updating token");
+			}
+			return token
+
+		} catch (err) {
+
+    		return err;
+
+		}
+	}
+
 	async createAccount(email, password) {
 		try {
 
@@ -69,20 +93,29 @@ class AccountsDataSource extends DataSource {
 				const token = createToken(savedAccount);
 				const expiresAt = getDatePlusThirtyMinutes();
 
-				const { _id, createdAt } = savedAccount;
+				console.log(token);
 
-				const tokenData = new this.Token({
-					token,
-					account: savedAccount._id,
-					expiresAt
-				})
+				const { _id } = savedAccount;
+
+				const tokenData = this.Token({
+					refreshToken: token,
+					accountId: _id,
+					expiresAt,
+				});
 
 				const savedToken = await tokenData.save();
 
-				return {
-					token,
-					expiresAt
-				};
+				if (savedToken) {
+
+					return savedToken
+
+				} else {
+
+					throw new ApolloError(
+						"Token creation error"
+					)
+
+				}
 
 			} else {
 				throw new ApolloError(
