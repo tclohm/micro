@@ -145,6 +145,7 @@ class AccountsDataSource extends DataSource {
 			);
 
 			if (passwordValid) {
+				
 				const { password, ...rest } = account;
 				const userInfo = Object.assign({}, { ...rest });
 				const token = createToken(userInfo._doc);

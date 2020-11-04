@@ -10,6 +10,7 @@ import Account from "../models/Account";
 import Post from "../models/Post";
 import Profile from "../models/Profile";
 import Reply from "../models/Reply";
+import Token from "../models/Token";
 
 // MARK: -- initialize mongoose
 initMongoose();
@@ -49,11 +50,13 @@ async function deleteAuth0Data() {
 		await auth0.deleteUser({ id: user.user_id });
 	}
 
-	return "Auth0 data deleted...";
+	return "Accounts data deleted...";
 }
 
 // MARK: -- Drop all existing documents from MongoDB collections
 async function deleteMongoData() {
+	await Account.deleteMany({}).exec();
+	await Token.deleteMany({}).exec();
 	await Post.deleteMany({}).exec();
 	await Profile.deleteMany({}).exec();
 	await Reply.deleteMany({}).exec();
@@ -96,14 +99,14 @@ function generateRawData() {
 	return fakerData
 }
 
-// MARK: Create Auth0 account from generated data
-async function createAuth0Accounts(rawData) {
+// MARK: Create account from generated data
+async function createAccounts(rawData) {
 	let accounts = [];
 
 	// Create 5 user accounts
 	for (const user of rawData) {
 
-		const account = await auth0.createUser({
+		const account = new Account({
 			app_metadata: {
 				groups: [],
 				roles: ["author"],
@@ -113,12 +116,13 @@ async function createAuth0Accounts(rawData) {
 			email: user.email,
 			password: user.password
 		});
+		const savedAccount = await account.save()
 		accounts.push(account)
 	}
-
+	console.log(accounts)
 	// Upgrade first user account to a moderator role
-	auth0.updateUser(
-		{ id: accounts[0].user_id },
+	Account.findOneAndUpdate(
+		accounts[0]._id,
 		{
 			app_metadata: {
 				groups: [],
@@ -140,10 +144,10 @@ async function createProfiles(rawData, accounts) {
 		const { avatar, description, email, fullName, username } = user;
 
 		// the 'accountId' by matching the Auth0 account and raw user object on email
-		const { user_id } = accounts.find(account => email === account.email);
+		const { _id } = accounts.find(account => email === account.email);
 
 		const profile = {
-			accountId: user_id,
+			accountId: _id,
 			avatar,
 			description,
 			fullName,
@@ -273,9 +277,9 @@ async function followOtherUsers(profiles) {
 }
 
 // MARK: -- Populate Auth0 and MongoDB databases with data
-async function populateAuth0AndMongo() {
+async function populateMongo() {
 	const rawData = generateRawData();
-	const accounts = await createAuth0Accounts(rawData);
+	const accounts = await createAccounts(rawData);
 	const profiles = await createProfiles(rawData, accounts);
 	const posts = await createPosts(rawData, profiles);
 	await createReplies(rawData, profiles, posts);
@@ -287,11 +291,9 @@ async function populateAuth0AndMongo() {
 // MARK: -- Run all functions to clean and set-up data
 async function seedData() {
 	try {
-		const auth0Result = await deleteAuth0Data();
-		console.log(auth0Result);
 		const mongoResult = await deleteMongoData();
 		console.log(mongoResult);
-		const populateResult = await populateAuth0AndMongo();
+		const populateResult = await populateMongo();
 		console.log(populateResult)
 		console.log("🔨🔨 Built Complete 🔨🔨")
 		mongoose.disconnect();
