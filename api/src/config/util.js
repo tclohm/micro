@@ -20,7 +20,7 @@ export const createToken = account => {
 			aud: process.env.ACCOUNT_AUDIENCE,
 		},
 		process.env.JWT_SECRET,
-		{ algorithm: "HS256", expiresIn: "15m" }
+		{ algorithm: "HS256", expiresIn: "30m" }
 	);
 };
 
@@ -48,16 +48,11 @@ export const getRefreshToken = () => {
 	return randToken.uid(64);
 };
 
-export const saveRefreshToken = async (refreshToken, userId) => {
-		try {
-		const storedRefreshToken = new Token({
-		  refreshToken,
-		  user: userId,
-		  expiresAt: getDatePlusOneWeek()
-		});
+const thirtyMinutes = 3600 * 500
 
-	    return await storedRefreshToken.save();
-	  } catch (err) {
-	    return err;
-	  }
-	}
+export const getDatePlusThirtyMinutes = () => {
+	return new Date(new Date().valueOf() + thirtyMinutes);
+} 
+
+// ( 7 days ), ( 24 hours ), ( 3600 milliseconds * 1000 ) = 60 mins
+// const oneWeek = 7 * 24 * 3600 * 1000
