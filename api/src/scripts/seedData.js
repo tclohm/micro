@@ -12,6 +12,8 @@ import Profile from "../models/Profile";
 import Reply from "../models/Reply";
 import Token from "../models/Token";
 
+import { hashPassword, createToken, getDatePlusThirtyMinutes } from "../config/util";
+
 // MARK: -- initialize mongoose
 initMongoose();
 
@@ -106,6 +108,8 @@ async function createAccounts(rawData) {
 	// Create 5 user accounts
 	for (const user of rawData) {
 
+		const hashedPassword = await hashPassword(user.password);
+
 		const account = new Account({
 			app_metadata: {
 				groups: [],
@@ -114,12 +118,16 @@ async function createAccounts(rawData) {
 			},
 			connection: "Username-Password-Authentication",
 			email: user.email,
-			password: user.password
+			password: hashedPassword
 		});
 		const savedAccount = await account.save()
+
+
+		await generateToken(savedAccount)
+
 		accounts.push(account)
 	}
-	console.log(accounts)
+
 	// Upgrade first user account to a moderator role
 	Account.findOneAndUpdate(
 		accounts[0]._id,
@@ -135,7 +143,21 @@ async function createAccounts(rawData) {
 	return accounts;
 }
 
-// MARK: -- Create a profile from generated raw data and Auth0 accounts
+// MARK: -- Create a token from generated raw data
+async function generateToken(savedAccount) {
+	const token = createToken(savedAccount);
+	const expiresAt = getDatePlusThirtyMinutes();
+	const { _id } = savedAccount;
+
+	const tokenData = new Token({
+		refreshToken: token,
+		accountId: _id,
+		expiresAt,
+	});
+	const savedToken = await tokenData.save();
+}
+
+// MARK: -- Create a profile from generated raw data and accounts
 async function createProfiles(rawData, accounts) {
 	let profiles = [];
 

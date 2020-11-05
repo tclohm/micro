@@ -138,11 +138,11 @@ class AccountsDataSource extends DataSource {
 					"Wrong email/username or password"
 				);
 			}
-
+			
 			const passwordValid = await verifyPassword(
 				password,
 				account.password
-			);
+			);			
 
 			if (passwordValid) {
 				
