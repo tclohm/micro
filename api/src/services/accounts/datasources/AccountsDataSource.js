@@ -31,7 +31,7 @@ class AccountsDataSource extends DataSource {
 
 	// MARK: -- CRUD
 	getAccountById(id) {
-		return this.Account.findById(id);
+		return this.Account.findById(_id);
 	}
 
 	getAccounts() {
@@ -151,10 +151,8 @@ class AccountsDataSource extends DataSource {
 				const token = createToken(userInfo._doc);
 				const expiresAt = getDatePlusThirtyMinutes();
 
-				const refreshToken = getRefreshToken();
-
 				const savedRefToken = await this.saveRefreshToken(
-					refreshToken, 
+					token,
 					{ accountId: userInfo._doc._id }
 				);
 
@@ -175,13 +173,13 @@ class AccountsDataSource extends DataSource {
 		}
 	}
 
-	async changeAccountBlockedStatus(id) {
-		const  { blocked } = await this.Account.findById(id)
-		return this.Account.findByIdAndUpdate(id, { blocked: !blocked });
+	async changeAccountBlockedStatus(_id) {
+		const  { blocked } = await this.Account.findById(_id)
+		return this.Account.findByIdAndUpdate(_id, { blocked: !blocked });
 	}
 
-	async changeAccountModeratorRole(id) {
-		const user = await this.Account.findById(id);
+	async changeAccountModeratorRole(_id) {
+		const user = await this.Account.findById(_id);
 		const isModerator = user.app_metadata.roles.includes("moderator");
 		const permissions = isModerator 
 		? this.authorPermissions 
@@ -199,7 +197,7 @@ class AccountsDataSource extends DataSource {
 		);
 	}
 
-	async updateAccount(id, { email, newPassword, password }) {
+	async updateAccount(_id, { email, newPassword, password }) {
 		if (!email && !newPassword && !password) {
 			throw new UserInputError(
 				"You must supply some account data to update."
@@ -215,16 +213,16 @@ class AccountsDataSource extends DataSource {
 		}
 
 		if (!email) {
-			const user = await this.Account.findById(id);
+			const user = await this.Account.findById(_id);
 			await getToken(user.email, password);
-			return this.Account.findByIdAndUpdate(id, { password: newPassword });
+			return this.Account.findByIdAndUpdate(_id, { password: newPassword });
 		}
 
-		return this.Account.findByIdAndUpdate(id, { email });
+		return this.Account.findByIdAndUpdate(_id, { email });
 	}
 
-	async deleteAccount(id) {
-		await this.Account.findByIdAndDelete(id);
+	async deleteAccount(_id) {
+		await this.Account.findByIdAndDelete(_id);
 		return true;
 	}
 }

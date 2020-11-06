@@ -23,8 +23,8 @@ const gateway = new ApolloGateway({
 const server = new ApolloServer({
 	gateway,
 	subscriptions: false,
-	context: ({ req, res }) => {
-		const user = req.user || null
+	context: ({ req }) => {
+		const user = req.headers.user || null
 		return { user }
 	}
 });
