@@ -6,10 +6,11 @@ const resolvers = {
 	DateTime: DateTimeResolver,
 	Account: {
 		__resolveReference(reference, { dataSources }, info) {
+			console.log("resolve, account", reference, info)
 			return dataSources.accountsAPI.getAccountById(reference.id);
 		},
 		id(account, args, context, info) {
-			return account.user_id;
+			return account._id;
 		},
 		createdAt(account, args, context, info) {
 			return account.created_at;

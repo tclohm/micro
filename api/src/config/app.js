@@ -4,7 +4,7 @@ import cors from "cors";
 
 const app = express();
 
-const jwtCheck = jwt({
+const checkJWT = jwt({
 	secret: process.env.JWT_SECRET,
 	audience: process.env.ACCOUNT_AUDIENCE,
 	issuer: process.env.ACCOUNT_ISSUER,
@@ -13,7 +13,8 @@ const jwtCheck = jwt({
 });
 
 // MARK: -- manage auth access
-app.use(jwtCheck, (err, req, res, next) => {
+app.use(checkJWT, (err, req, res, next) => {
+	console.log(err)
 	if (err.code == "invalid_token") {
 		return next()
 	}

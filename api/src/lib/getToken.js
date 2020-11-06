@@ -1,16 +1,17 @@
 import { GraphQLObjectType } from "graphql";
 import Account from "../models/Account";
 import Token from "../models/Token";
-import { createToken, hashPassword, verifyPassword, getRefreshToken } from "../config/util";
+import { createToken, hashPassword, verifyPassword, getRefreshToken, getDatePlusThirtyMinutes } from "../config/util";
 
 const saveRefreshToken = async (refreshToken, accountId) => {
+	
 	try {
 		const storedRefreshToken = new Token({
 			refreshToken,
 			account: accountId,
-			expiresAt: '15m'
+			expiresAt: getDatePlusThirtyMinutes()
 		});
-		console.log(storedRefreshToken);
+
 		return await storedRefreshToken.save();
 	} catch (err) {
 		console.error(err);
@@ -19,7 +20,6 @@ const saveRefreshToken = async (refreshToken, accountId) => {
 };
 
 export default async function(email, password) {
-	console.log("in getToken")
 	console.log(email, password)
 	try {
 		const existingAccount = await Account.findOne({ email }).exec();
@@ -39,7 +39,7 @@ export default async function(email, password) {
 			console.log(userInfo);
 
 			const token = createToken(userInfo);
-			const expiresAt = '15m'
+			const expiresAt = getDatePlusThirtyMinutes()
 
 			const refreshToken = getRefreshToken();
 
