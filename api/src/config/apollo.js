@@ -1,5 +1,6 @@
 import  { ApolloGateway, RemoteGraphQLDataSource } from "@apollo/gateway";
 import { ApolloServer } from "apollo-server-express";
+import jwt from "jsonwebtoken";
 
 const gateway = new ApolloGateway({
 	serviceList: [
@@ -11,12 +12,10 @@ const gateway = new ApolloGateway({
 		return new RemoteGraphQLDataSource({
 			url,
 			willSendRequest({ request, context }) {
-				console.log(context)
 				request.http.headers.set(
 					"user",
 					context.user ? JSON.stringify(context.user) : null
 				);
-
 			}
 		});
 	}
@@ -26,9 +25,19 @@ const server = new ApolloServer({
 	gateway,
 	subscriptions: false,
 	context: ({ req }) => {
-		console.log(req)
-		const user = req.headers.user || null
-		return { user }
+		try {
+			const token = req.headers.authorization || '';
+			if (!token) {
+				return { user: null }
+			}
+			const decoded = jwt.verify(
+				token.slice(7),
+				process.env.JWT_SECRET
+			);
+			return { user: decoded }
+		} catch (err) {
+			return { user: null }
+		}
 	}
 });
 
