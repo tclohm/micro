@@ -11,10 +11,12 @@ const gateway = new ApolloGateway({
 		return new RemoteGraphQLDataSource({
 			url,
 			willSendRequest({ request, context }) {
+				console.log(context)
 				request.http.headers.set(
 					"user",
 					context.user ? JSON.stringify(context.user) : null
 				);
+
 			}
 		});
 	}
@@ -24,6 +26,7 @@ const server = new ApolloServer({
 	gateway,
 	subscriptions: false,
 	context: ({ req }) => {
+		console.log(req)
 		const user = req.headers.user || null
 		return { user }
 	}

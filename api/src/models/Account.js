@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const accountSchema = new mongoose.Schema({
 	created_at: {
 		type: Date,
-		default: Date.now()
+		default: Date.now
 	},
 	email: {
 		type: String,
@@ -17,7 +17,7 @@ const accountSchema = new mongoose.Schema({
 	},
 	updated_at: {
 		type: Date,
-		default: Date.now()
+		default: Date.now
 	},
 	app_metadata: {
 		type: mongoose.Schema.Types.Mixed,
@@ -30,7 +30,7 @@ const accountSchema = new mongoose.Schema({
 	},
 	last_login: {
 		type: Date,
-		default: Date.now()
+		default: Date.now
 	},
 	logins_count: {
 		type: Number,

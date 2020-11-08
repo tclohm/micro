@@ -30,7 +30,7 @@ class AccountsDataSource extends DataSource {
 	}
 
 	// MARK: -- CRUD
-	getAccountById(id) {
+	getAccountById(_id) {
 		return this.Account.findById(_id);
 	}
 
@@ -44,15 +44,18 @@ class AccountsDataSource extends DataSource {
 
 			const token = await this.Token.findOneAndUpdate(
 				accountId, 
-			{
-				refreshToken: refreshToken,
-				expiresAt: getDatePlusThirtyMinutes()
-			}
-			).exec()
+				{
+					refreshToken: refreshToken,
+					expiresAt: getDatePlusThirtyMinutes()
+				},
+				{
+					new: true
+				}
+			);
 			
 			if (!token) {
 				throw new ApolloError("Error updating token");
-			}
+			};
 
 			return token
 
@@ -150,6 +153,17 @@ class AccountsDataSource extends DataSource {
 				const userInfo = Object.assign({}, { ...rest });
 				const token = createToken(userInfo._doc);
 				const expiresAt = getDatePlusThirtyMinutes();
+
+				const updatedAccount = await this.Account.findOneAndUpdate(
+					{ _id: account._id },
+					{
+						$inc : { 'logins_count': 1 },
+						last_login: Date.now(),
+					},
+					{
+						new: true
+					}
+				);
 
 				const savedRefToken = await this.saveRefreshToken(
 					token,

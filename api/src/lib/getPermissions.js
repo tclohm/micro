@@ -1,7 +1,6 @@
 export default function(user) {
-	console.log("get perm", user)
-	if (user && user["https://microfails.com/user_authorization"]) {
-		return user["https://microfails.com/user_authorization"].permissions;
+	if (user && user["app_metadata"]) {
+		return user["app_metadata"].permissions;
 	}
 	return [];
 }
