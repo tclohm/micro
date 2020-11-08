@@ -4,6 +4,7 @@ import getPermissions from "../../lib/getPermissions";
 
 const canReadAnyAccount = rule()((parent, args, { user }, info) => {
 	const userPermissions = getPermissions(user);
+	console.log(userPermissions)
 	return userPermissions && userPermissions.includes("read:any_account");
 });
 
