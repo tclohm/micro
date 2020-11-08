@@ -15,7 +15,7 @@ export const createToken = account => {
 		{
 			sub: account._id,
 			email: account.email,
-			app_metadata: account.app_metadata,
+			roles: account.app_metadata.roles,
 			iss: process.env.ACCOUNT_ISSUER,
 			aud: process.env.ACCOUNT_AUDIENCE,
 		},
@@ -51,7 +51,7 @@ export const getRefreshToken = () => {
 const thirtyMinutes = 3600 * 500
 
 export const getDatePlusThirtyMinutes = () => {
-	return new Date(new Date().valueOf() + thirtyMinutes);
+	return Date.now() + thirtyMinutes
 } 
 
 // ( 7 days ), ( 24 hours ), ( 3600 milliseconds * 1000 ) = 60 mins
