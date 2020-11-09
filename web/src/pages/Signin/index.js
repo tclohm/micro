@@ -1,27 +1,25 @@
-import { Link } from 'react-router'
-import AuthenticationLayout from 'src/layouts/AuthenticationLayout';
-
-import { 
-  Content, 
-  AuthNav, 
-  AuthContent, 
-  Button, 
-  HRDivider, 
-  AuthFormSignupForm, 
-  FormFieldGroup, 
-  FormField 
-} from 'src/styled'
+import { Link } from "react-router-dom";
+import React from "react";
+import AuthenticationLayout from "../../layouts/AuthenticationLayout";
+import Content from "../../components/Content";
+import AuthNav from "../../components/AuthNav";
+import AuthContent from "../../components/AuthContent";
+import AccentButton from "../../components/AccentButton";
+import HRDivider from "../../components/HRDivider";
+import AuthForm from "../../components/AuthForm";
+import FormFieldGroup from "../../components/FormFieldGroup";
+import FormField from "../../components/FormField";
 
 const SigninPage = () => {
   return (
     <AuthenticationLayout sidebarColor='#FFFB7D' subtitleColor='black'>
       <Content>
         <AuthNav>
-          <p>Not a member? <Link to={routes.signup()} className='auth'>Sign Up</Link></p>
+          <p>Not a member? <Link to='/signup' className='auth'>Sign Up</Link></p>
         </AuthNav>
         <AuthContent>
           <h2>Sign up to Microfails</h2>
-          <Button
+          <AccentButton
             inputWidth='74.7%'
             inputMargin='0 1rem 1rem 0'
             inputBGColor='#4285f4'
@@ -29,14 +27,14 @@ const SigninPage = () => {
             inputColor='white'
             inputBorder='2px solid #4285f4'
             inputHoverColor='rgb(0, 87, 255)'
-          >Sign in with Google<i className='fab fa-google' style={{ 'margin-left': '0.5rem' }}></i></Button>
-          <Button
+          >Sign in with Google<i className='fab fa-google' style={{ 'margin-left': '0.5rem' }}></i></AccentButton>
+          <AccentButton
             inputWidth='20%'
             inputMargin='0'
             inputHoverColor='#A0A0A0'
-          ><i className='fab fa-twitter'></i></Button>
+          ><i className='fab fa-twitter'></i></AccentButton>
           <HRDivider/>
-          <AuthFormSignupForm>
+          <AuthForm>
             <form>
               <FormField
                 inputWidth='100%'
@@ -61,7 +59,7 @@ const SigninPage = () => {
                   />
               </FormField>
             </form>
-            <Button
+            <AccentButton
               inputMargin='1rem 0'
               inputBGColor='#FFC843'
               inputColor='white'
@@ -69,8 +67,8 @@ const SigninPage = () => {
               inputHoverColor='#F7D380'
             >
               Sign In
-            </Button>
-          </AuthFormSignupForm>
+            </AccentButton>
+          </AuthForm>
         </AuthContent>
       </Content>
     </AuthenticationLayout>

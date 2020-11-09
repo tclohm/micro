@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Box, Heading } from "grommet";
 import React from "react";
 
@@ -20,7 +21,9 @@ const NavBar = () => {
 				pad="small"
 			>
 				<Heading level="1" size="32px">
-					<AccentAnchor href="/" label="microfails" inputColor="black" />
+					<AccentAnchor inputColor="black">
+						<Link to="/">microfails</Link>
+					</AccentAnchor>
 				</Heading>
 				<Box
 					direction="row"
@@ -32,11 +35,12 @@ const NavBar = () => {
 	            		inputBGColor="#FFF"
 	            		inputBorder="white"
 	            		inputHoverColor="white"
-	            		label="Sign in"
 	            		border={{
 	            			color: "white"
 	            		}}
-					/>
+					>
+						<Link to="/signin">Sign in</Link>
+					</AccentButton>
 					<AccentButton
 						inputHeight="2.5rem"
 	            		inputWidth="5rem"
@@ -44,8 +48,9 @@ const NavBar = () => {
 	            		inputBGColor="#FFC843"
 	            		inputBorder="#FFC843"
 	            		inputHoverColor="#F7D380"
-	            		label="Sign up"
-					/>
+					>
+						<Link to="/signup">Sign up</Link>
+					</AccentButton>
 				</Box>
 			</Box>
 		</header>
