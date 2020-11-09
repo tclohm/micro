@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 import Container from "../../components/Container";
-import AuthSideBar from "../../components/AuthSideBar";
+import AuthSidebar from "../../components/AuthSidebar";
 import SidebarContent from "../../components/SidebarContent";
 import Artwork from "../../components/Artwork";
 import Header from "../../components/Header";
@@ -11,15 +11,15 @@ const AuthenticationLayout = ({ children, sidebarColor, subtitleColor }) => {
 
 	return (
 		<Container>
-			<AuthSideBar inputSidebarColor={sidebarColor}>
+			<AuthSidebar inputSidebarColor={sidebarColor}>
 				<SidebarContent>
 					<Header>
-						<Link to="" className="logo">microfails</Link>
+						<Link to="/" className="logo">microfails</Link>
 		    			<Subtitle inputFontColor={subtitleColor}>Fail. Together. 🤦‍♀️</Subtitle>
 					</Header>
 					<Artwork />
 				</SidebarContent>
-	    	</AuthSideBar>
+	    	</AuthSidebar>
 			<main>{children}</main>
 		</Container>
   )
