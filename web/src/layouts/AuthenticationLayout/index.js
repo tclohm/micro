@@ -1,4 +1,5 @@
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
+import React from "react";
 import Container from "../../components/Container";
 import AuthSidebar from "../../components/AuthSidebar";
 import SidebarContent from "../../components/SidebarContent";

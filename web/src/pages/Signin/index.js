@@ -1,4 +1,5 @@
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
+import React from "react";
 import AuthenticationLayout from "../../layouts/AuthenticationLayout";
 import Content from "../../components/Content";
 import AuthNav from "../../components/AuthNav";
@@ -14,7 +15,7 @@ const SigninPage = () => {
     <AuthenticationLayout sidebarColor='#FFFB7D' subtitleColor='black'>
       <Content>
         <AuthNav>
-          <p>Not a member? <Link to={routes.signup()} className='auth'>Sign Up</Link></p>
+          <p>Not a member? <Link to='/signup' className='auth'>Sign Up</Link></p>
         </AuthNav>
         <AuthContent>
           <h2>Sign up to Microfails</h2>

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Distribution, Box, Image, Heading } from "grommet";
 import React from "react";
 
@@ -29,10 +30,10 @@ const Index = () => {
 						inputBGColor='#FFC843'
 						inputBorder='2px solid #FFC843'
 						inputHoverColor='#F7D380'
-						label="Sign up"
 						inputMargin="1rem 0 0 0"
-						onClick={() => console.log("Clicked!")}
-					/>
+					>
+						<Link to="/signup">Sign up</Link>
+					</AccentButton>
 				</Box>
 				<Box height="medium" width="medium">
 					<Image fit="contain" src={process.env.PUBLIC_URL + 'placeholder.png'} />

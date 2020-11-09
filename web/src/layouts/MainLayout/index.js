@@ -2,7 +2,7 @@ import { Box } from "grommet";
 import React from "react";
 
 import Container from "../../components/Container";
-import NavBar from "../../components/NavBar";
+import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 
 const MainLayout = ({ centered, children }) => (
@@ -12,7 +12,7 @@ const MainLayout = ({ centered, children }) => (
 		style={{ minHeight: "100vh" }}
 		width="100%"
 	>
-		<NavBar />
+		<Navbar />
 		<Box
 			align={centered ? "center" : "start"}
 			flex={{ grow: 1, shrink: 0 }}

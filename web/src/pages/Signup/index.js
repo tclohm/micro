@@ -1,5 +1,6 @@
-import { Link } from "react-router";
-import AuthenticationLayout from "src/layouts/AuthenticationLayout"
+import { Link } from "react-router-dom";
+import React from "react";
+import AuthenticationLayout from "../../layouts/AuthenticationLayout";
 import Content from "../../components/Content";
 import AuthNav from "../../components/AuthNav";
 import AuthContent from "../../components/AuthContent";
@@ -15,7 +16,7 @@ const SignupPage = () => {
     <AuthenticationLayout>
       <Content>
         <AuthNav>
-          <p>Already a member? <Link to="signin" className='auth'>Sign In</Link></p>
+          <p>Already a member? <Link to="/signin" className='auth'>Sign In</Link></p>
         </AuthNav>
         <AuthContent>
           <h2>Sign up to Microfails</h2>
@@ -27,14 +28,18 @@ const SignupPage = () => {
             inputColor='white'
             inputBorder='2px solid #4285f4'
             inputHoverColor='rgb(0, 87, 255)'
-          >Sign up with Google<i className='fab fa-google' style={{ 'margin-left': '0.5rem' }}></i></AccentButton>
+          >
+            Sign up with Google<i className='fab fa-google' style={{ 'margin-left': '0.5rem' }}></i>
+          </AccentButton>
           <AccentButton
             inputWidth='20%'
             inputMargin='0'
             inputHoverColor='#A0A0A0'
-          ><i className='fab fa-twitter'></i></AccentButton>
+          >
+            <i className='fab fa-twitter'></i>
+          </AccentButton>
           <HRDivider/>
-          <AuthFormSignupForm>
+          <AuthForm>
             <form>
               <FormFieldGroup>
                 <FormField>
@@ -88,7 +93,7 @@ const SignupPage = () => {
             >
               Create Account
             </AccentButton>
-          </AuthFormSignupForm>
+          </AuthForm>
         </AuthContent>
       </Content>
     </AuthenticationLayout>
