@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
-import { Heading } from "grommet";
+import history from "../../routes/history";
 import React from "react";
+import { Heading } from "grommet";
 import AuthenticationLayout from "../../layouts/AuthenticationLayout";
 import Content from "../../components/Content";
 import AuthNav from "../../components/AuthNav";

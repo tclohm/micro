@@ -7,6 +7,12 @@ const AuthContent = styled.div`
 	padding: 3rem 6rem 0;
 	margin: 2rem 0 0 0;
 	width: 70%;
+
+	@media (max-width: 500px) {
+  		width: 55%;
+  		margin: 2rem;
+  		padding: 0;
+  	}
 `;
 
 export default AuthContent;
