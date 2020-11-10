@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Distribution, Box, Image, Heading } from "grommet";
+import { Box, Image, Heading } from "grommet";
 import React from "react";
 
 import AccentButton from "../../components/AccentButton";

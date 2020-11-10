@@ -6,6 +6,7 @@ const AuthNav = styled.nav`
   align-items: center;
   flex-grow: 0;
   padding: 3rem 3rem 0;
+  width: 100%;
 `
 
 export default AuthNav;

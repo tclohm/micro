@@ -20,4 +20,13 @@ export default createGlobalStyle`
 		height: auto;
 		max-width: 100%;
 	}
+
+	label {
+    	font-weight: Bold; 
+    	margin: 1rem 0 0 0;
+	}
+
+	.auth {
+    	text-decoration: none;
+	}
 `;

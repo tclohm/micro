@@ -1,9 +1,12 @@
 import styled from "styled-components";
 
 const AuthContent = styled.div`
-  padding: 3rem 6rem 0;
-  margin: 0 0 0 7rem;
-  width: 50%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	padding: 3rem 6rem 0;
+	margin: 2rem 0 0 0;
+	width: 70%;
 `;
 
 export default AuthContent;
