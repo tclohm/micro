@@ -39,7 +39,7 @@ const NavBar = () => {
 	            			color: "white"
 	            		}}
 					>
-						<Link to="/signin">Sign in</Link>
+						<Link to="/session/new">Sign in</Link>
 					</AccentButton>
 					<AccentButton
 						inputHeight="2.5rem"
@@ -49,7 +49,7 @@ const NavBar = () => {
 	            		inputBorder="#FFC843"
 	            		inputHoverColor="#F7D380"
 					>
-						<Link to="/signup">Sign up</Link>
+						<Link to="/signup/new">Sign up</Link>
 					</AccentButton>
 				</Box>
 			</Box>

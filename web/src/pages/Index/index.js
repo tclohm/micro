@@ -32,7 +32,7 @@ const Index = () => {
 						inputHoverColor='#F7D380'
 						inputMargin="1rem 0 0 0"
 					>
-						<Link to="/signup">Sign up</Link>
+						<Link to="/signup/new">Sign up</Link>
 					</AccentButton>
 				</Box>
 				<Box height="medium" width="medium">

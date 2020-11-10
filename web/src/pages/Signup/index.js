@@ -20,7 +20,7 @@ const SignupPage = () => {
     <AuthenticationLayout>
       <Content>
         <AuthNav>
-          <p>Already a member? <Link to="/signin" className='auth'>Sign In</Link></p>
+          <p>Already a member? <Link to="/session/new" className='auth'>Sign In</Link></p>
         </AuthNav>
         <AuthContent>
           <Heading 
@@ -35,7 +35,6 @@ const SignupPage = () => {
               inputWidth='80%'
               inputMargin='0 1rem 1rem 0'
               inputBGColor='#4285f4'
-              inputHoverColor='#fff'
               inputColor='white'
               inputBorder='2px solid #4285f4'
               inputHoverColor='rgb(0, 87, 255)'

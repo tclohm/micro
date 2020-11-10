@@ -8,8 +8,8 @@ import Signin from "../pages/Signin";
 const Routes = () => (
 	<Switch>
 		<Route exact path="/" component={Index} />
-		<Route path="/signin" component={Signin} />
-		<Route path="/signup" component={Signup} />
+		<Route path="/session/new" component={Signin} />
+		<Route path="/signup/new" component={Signup} />
 	</Switch>
 );
 
