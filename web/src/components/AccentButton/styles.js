@@ -11,9 +11,9 @@ export const StyledAccentButton = styled(Button)`
   width: ${props => props.inputWidth || '11rem'};
   background: ${props => props.inputBGColor || 'lightgray'};
   color: ${props => props.inputColor || 'gray'};
+  text-align: center;
   font-size: 0.85rem;
   border: ${props => props.inputBorder || '2px solid lightgray'};
-
   :hover {
     background: ${props => props.inputHoverColor || 'gray'};
     box-shadow: ${props => `0 0 0 0px ${props.inputHoverColor}` || 'gray'};

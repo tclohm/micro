@@ -4,7 +4,7 @@ const AuthSidebar = styled.section`
   background: ${props => props.inputSidebarColor || '#4d4891'};
   color: #fff;
   height: 100vh;
-  width: 32.1rem;
+  width: 32rem;
 `
 
 export default AuthSidebar;

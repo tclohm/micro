@@ -1,6 +1,7 @@
+import { Box } from "grommet";
 import styled from "styled-components";
 
-const Container = styled.div`
+const Container = styled(Box)`
 	margin: 0 auto;
 	max-width: 100%;
 	padding: 0;
