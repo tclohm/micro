@@ -4,9 +4,13 @@
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.2.5",
+    "@apollo/react-hooks": "^4.0.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "apollo-boost": "^0.4.9",
+    "axios": "^0.21.0",
+    "formik": "^2.2.4",
     "graphql": "^15.3.0",
     "grommet": "^2.15.2",
     "grommet-icons": "^4.5.0",
@@ -16,7 +20,8 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.4",
     "styled-components": "^5.2.0",
-    "styled-reset": "^4.2.3"
+    "styled-reset": "^4.2.3",
+    "yup": "^0.29.3"
   },
   "scripts": {
     "start": "react-scripts start",
