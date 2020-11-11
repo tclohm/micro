@@ -10,16 +10,16 @@ import SocialAuth from "../../components/SocialAuth";
 import AccentButton from "../../components/AccentButton";
 import HRDivider from "../../components/HRDivider";
 import AuthForm from "../../components/AuthForm";
-import FormFieldGroup from "../../components/FormFieldGroup";
 import FormField from "../../components/FormField";
 import FormInput from "../../components/FormInput";
+import Loader from "../../components/Loader";
 
 const SigninPage = () => {
   return (
     <AuthenticationLayout sidebarColor='#FFFB7D' subtitleColor='black'>
       <Content>
         <AuthNav>
-          <p>Not a member? <Link to='/signup' className='auth'>Sign Up</Link></p>
+          <p>Not a member? <Link to='/signup/new' className='auth'>Sign Up</Link></p>
         </AuthNav>
         <AuthContent>
            <Heading 
@@ -32,7 +32,6 @@ const SigninPage = () => {
               inputWidth='80%'
               inputMargin='0 1rem 1rem 0'
               inputBGColor='#4285f4'
-              inputHoverColor='#fff'
               inputColor='white'
               inputBorder='2px solid #4285f4'
               inputHoverColor='rgb(0, 87, 255)'
