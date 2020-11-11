@@ -12,6 +12,7 @@ import HRDivider from "../../components/HRDivider";
 import AuthForm from "../../components/AuthForm";
 import FormField from "../../components/FormField";
 import FormInput from "../../components/FormInput";
+import Loader from "../../components/Loader";
 
 const SigninPage = () => {
   return (

@@ -11,7 +11,7 @@ const AuthProvider = ({ children }) => {
 	const expiresAt = localStorage.getItem('expiresAt');
 
 
-	const [checkingSession , setCheckingSession] = useState(true);
+	const [checkingSession , setCheckingSession] = useState(false);
 	const [authenticated, setAuthenticated] = useState({
 		token,
 		expiresAt,
@@ -39,22 +39,28 @@ const AuthProvider = ({ children }) => {
 	}
 
 	const isAuthenticated = () => {
+		setCheckingSession(!checkingSession)
 		if(!authenticated.expiresAt) {
-			return false;
+			setCheckingSession(!checkingSession)
+			history.replace("/signup/new");
 		}
+		setCheckingSession(!checkingSession);
 		return (
 			new Date().getTime() / 1000 < authenticated.expiresAt
 		);
 	};
 
 	return (
-		<AuthContext.Provider value={{
-			checkingSession,
-			authenticated,
-			setAuthenticated: authInfo => setAuthenticated(authInfo);
-			logout,
-			isAuthenticated
-		}}>
+		<AuthContext.Provider 
+			value={{
+				checkingSession,
+				setCheckingSession,
+				authenticated,
+				setAuthenticated: authInfo => setAuthInfo(authInfo);
+				logout,
+				isAuthenticated
+			}}
+		>
 			{children}
 		</AuthContext.Provider>
 	);
