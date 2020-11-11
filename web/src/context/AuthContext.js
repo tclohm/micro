@@ -56,7 +56,7 @@ const AuthProvider = ({ children }) => {
 				checkingSession,
 				setCheckingSession,
 				authenticated,
-				setAuthenticated: authInfo => setAuthInfo(authInfo);
+				setAuthenticated: authInfo => setAuthInfo(authInfo),
 				logout,
 				isAuthenticated
 			}}
