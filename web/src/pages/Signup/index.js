@@ -5,6 +5,9 @@ import history from "../../routes/history";
 // MARK: -- React
 import React, { useContext, useState, useEffect } from "react";
 
+// MARK: -- Authentication
+import { AuthContext } from "../../context/AuthContext";
+
 // MARK: -- Third Party, checks
 import { useMutation } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
@@ -71,7 +74,7 @@ const PROFILECREATION = gql`
 `;
 
 const ProcessSignup = ({ signupData }) => {
-  const authContext = useContext(AuthContent);
+  const authContext = useContext(AuthContext);
   const [redirectOnSignup, setRedirectOnSignup] = useState(false);
 
   useEffect(() => {
