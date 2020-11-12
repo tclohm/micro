@@ -2,21 +2,20 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import history from "../routes/history";
 
 const AuthContext = createContext();
+const { Provider } = AuthContext;
 
 const AuthProvider = ({ children }) => {
 	// MARK: -- is the user authenticated? 
 	//		 -- is the app checking whether the user is authenticated?
-	const token = localStorage.getItem('token');
-	const userInfo = localStorage.getItem('userInfo');
-	const expiresAt = localStorage.getItem('expiresAt');
+	const token = localStorage.getItem("token");
+	const userInfo = localStorage.getItem("userInfo");
+	const expiresAt = localStorage.getItem("expiresAt");
 
-
-	const [checkingSession , setCheckingSession] = useState(false);
-	const [authenticated, setAuthenticated] = useState({
+	const [authState, setAuthState] = useState({
 		token,
-		expiresAt,
-		userInfo: userInfo ? JSON.parse(userInfo) : {}
-	});
+		userInfo: userInfo ? JSON.parse(userInfo) : {},
+		expiresAt
+	})
 
 	const setAuthInfo = ({ token, userInfo, expiresAt }) => {
 		localStorage.setItem('token', token);
@@ -28,7 +27,7 @@ const AuthProvider = ({ children }) => {
 			userInfo,
 			expiresAt
 		});
-	}
+	};
 
 	const logout = () => {
 		localStorage.removeItem('token');
@@ -36,33 +35,38 @@ const AuthProvider = ({ children }) => {
 		localStorage.removeItem('expiresAt');
 		setAuthenticated({});
 		history.push('/');
-	}
+	};
 
 	const isAuthenticated = () => {
-		setCheckingSession(!checkingSession)
-		if(!authenticated.expiresAt) {
-			setCheckingSession(!checkingSession)
-			history.replace("/signup/new");
+		if (!authState.expiresAt) {
+			return false;
 		}
-		setCheckingSession(!checkingSession);
 		return (
-			new Date().getTime() / 1000 < authenticated.expiresAt
+			new Date().getTime() / 1000 < authState.expiresAt
 		);
 	};
 
+	const _getTokenSilently = (data) => {
+		// MARK: -- grab token from database
+		return -1
+	};
+
+	const getTokenSilently = (data) => {
+		return _getTokenSilently(data)
+	}
+
 	return (
-		<AuthContext.Provider 
+		<Provider 
 			value={{
-				checkingSession,
-				setCheckingSession,
-				authenticated,
-				setAuthenticated: authInfo => setAuthInfo(authInfo),
+				authState,
+				getToken: (...p) => getTokenSilently(...p),
+				setAuthState: authInfo => setAuthInfo(authInfo),
 				logout,
 				isAuthenticated
 			}}
 		>
 			{children}
-		</AuthContext.Provider>
+		</Provider>
 	);
 };
 

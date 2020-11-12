@@ -41,16 +41,18 @@ const NavBar = () => {
 					>
 						<Link to="/session/new">Sign in</Link>
 					</AccentButton>
-					<AccentButton
-						inputHeight="2.5rem"
-	            		inputWidth="5rem"
-	            		inputColor="white"
-	            		inputBGColor="#FFC843"
-	            		inputBorder="#FFC843"
-	            		inputHoverColor="#F7D380"
-					>
-						<Link to="/signup/new">Sign up</Link>
-					</AccentButton>
+					<Link to="/signup/new">
+						<AccentButton
+							inputHeight="2.5rem"
+		            		inputWidth="5rem"
+		            		inputColor="white"
+		            		inputBGColor="#FFC843"
+		            		inputBorder="#FFC843"
+		            		inputHoverColor="#F7D380"
+						>
+						Sign up
+						</AccentButton>
+					</Link>
 				</Box>
 			</Box>
 		</header>
