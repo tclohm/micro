@@ -52,18 +52,15 @@ const SIGNUP = gql`
 const PROFILECREATION = gql`
   mutation CreateProfile(
     $accountId: String!
-    $description: String
     $fullName: String
     $username: String
   ) {
     createProfile(
       accountId: $accountId
-      description: $description
       fullName: $fullName
       username: $username
     ) {
       avatar
-      description
       fullName
       username
     }
@@ -88,7 +85,7 @@ const ProcessSignup = ({ signupData }) => {
 const SignupPage = () => {
 
   const [signup, { loading, error, data }] = useMutation(
-    SIGNUP, 
+    SIGNUP,
     { onCompleted: PROFILECREATION }
   );
 
@@ -136,12 +133,17 @@ const SignupPage = () => {
                 fullName: '',
                 username: '',
               }}
-              onSubmit={values =>
-                
+              onSubmit={e => {
+                e.preventDefault()
                 signup({
-                  variables: { ...values }
+                  variables: { email, password }
+                }).then((results) => {
+                  const { accountId } = results
+                  createProfile({
+                    variables: { username, fullName }
+                  })
                 })
-              }
+              }}
               validationSchema={SignupSchema}
             >
             {() => (

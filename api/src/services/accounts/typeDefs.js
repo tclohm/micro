@@ -23,6 +23,8 @@ const typeDefs = gql`
 
 
 	type Token {
+		"Info about return"
+		message: String
 		"Token returned with account"
 		refreshToken: String
 		"Tokens owner"

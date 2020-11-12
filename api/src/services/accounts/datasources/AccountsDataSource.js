@@ -113,8 +113,13 @@ class AccountsDataSource extends DataSource {
 					);
 
 				}
-
-				return savedToken;
+				
+				return { 
+					message: "Account created!", 
+					refreshToken: token, 
+					accountId: _id,
+					expiresAt 
+				};
 
 				
 			} else {
