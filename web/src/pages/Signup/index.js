@@ -24,13 +24,15 @@ import AuthForm from "../../components/AuthForm";
 import FormFieldGroup from "../../components/FormFieldGroup";
 import FormField from "../../components/FormField";
 import FormInput from "../../components/FormInput";
+import FormSuccess from "../../components/FormSuccess";
+import FormError from "../../components/FormError";
 
 
 const SignupSchema = Yup.object().shape({
-  email: Yup.string().required("Email is required"),
+  email: Yup.string().email("Invalid email").required("Email is required"),
   password: Yup.string().required("Password is required"),
   username: Yup.string().required("Unique username is required"),
-  name: Yup.string().required("first name is required"),
+  fullName: Yup.string().required("Name is required"),
 });
 
 const SIGNUP = gql`
@@ -42,12 +44,13 @@ const SIGNUP = gql`
       email: $email
       password: $password
     ) {
+      message
       refreshToken
       accountId
       expiresAt
     }
   }
-`
+`;
 
 const PROFILECREATION = gql`
   mutation CreateProfile(
@@ -65,7 +68,7 @@ const PROFILECREATION = gql`
       username
     }
   }
-`
+`;
 
 const ProcessSignup = ({ signupData }) => {
   const authContext = useContext(AuthContent);
@@ -85,8 +88,11 @@ const ProcessSignup = ({ signupData }) => {
 const SignupPage = () => {
 
   const [signup, { loading, error, data }] = useMutation(
-    SIGNUP,
-    { onCompleted: PROFILECREATION }
+    SIGNUP
+  );
+
+  const [createProfile, { l, e, d }] = useMutation(
+    PROFILECREATION
   );
 
   return (
@@ -133,20 +139,12 @@ const SignupPage = () => {
                 fullName: '',
                 username: '',
               }}
-              onSubmit={e => {
-                e.preventDefault()
-                signup({
-                  variables: { email, password }
-                }).then((results) => {
-                  const { accountId } = results
-                  createProfile({
-                    variables: { username, fullName }
-                  })
-                })
+              onSubmit={values => {
+                const { email, password } = values
+                console.log(email, password)
               }}
               validationSchema={SignupSchema}
             >
-            {() => (
               <Form>
                 {data && (
                   <FormSuccess text={data.signup.message} />
@@ -164,16 +162,14 @@ const SignupPage = () => {
                     <label for='user_name'>Name</label>
                     <FormInput
                       type='text' 
-                      name='input'
-                      id='name' 
+                      name='fullName'
                     />
                   </FormField>
                   <FormField>
                     <label for='user_login'>Username</label>
                     <FormInput
                       type='text' 
-                      name='input' 
-                      id='username'  
+                      name='username' 
                     />
                   </FormField>
                 </FormFieldGroup>
@@ -181,21 +177,19 @@ const SignupPage = () => {
                   inputWidth='100%'
                 >
                   <label for='user_email'>Email</label>
-                    <FormInput
-                      type='text' 
-                      name='input' 
-                      id='email'  
-                    />
+                  <FormInput
+                    type='email' 
+                    name='email' 
+                  />
                 </FormField>
                 <FormField
                   inputWidth='100%'
                 >
                   <label for='user_login'>Password</label>
-                    <FormInput
-                      type='password' 
-                      name='input'
-                      id='password'  
-                    />
+                  <FormInput
+                    type='password' 
+                    name='password'
+                  />
                 </FormField>
                 <AccentButton
                   inputMargin='1rem 0'
@@ -203,11 +197,11 @@ const SignupPage = () => {
                   inputColor='white'
                   inputBorder='2px solid #FFC843'
                   inputHoverColor='#F7D380'
+                  type="submit"
                 >
                   Create Account
                 </AccentButton>
               </Form>
-            )}
             </Formik>
           </AuthForm>
         </AuthContent>
