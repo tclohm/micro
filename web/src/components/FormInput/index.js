@@ -21,14 +21,14 @@ const FormInput = ({
     
     return (
         <>
+            {meta.touched && meta.error ? (
+                <FormError text={meta.error}></FormError>
+            ): null}
             <StyledFormInput
             	{...field}
             	name={name}
             	type={type}
             />
-            	{meta.touched && meta.error ? (
-            		<FormError text={meta.error}></FormError>
-            	): null}
         </>
     )
 }

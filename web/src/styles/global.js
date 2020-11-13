@@ -29,4 +29,12 @@ export default createGlobalStyle`
 	.auth {
     	text-decoration: none;
 	}
+
+	.warning {
+		color: #FF5A5F
+	}
+
+	.success {
+		color: #1DB954
+	}
 `;
