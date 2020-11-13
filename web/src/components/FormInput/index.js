@@ -1,6 +1,7 @@
 import React from "react";
 import { useField } from "formik";
 import FormError from "../FormError";
+import FormSuccess from "../FormSuccess";
 
 import StyledFormInput from "./styles";
 
@@ -21,14 +22,20 @@ const FormInput = ({
     
     return (
         <>
-            {meta.touched && meta.error ? (
-                <FormError text={meta.error}></FormError>
-            ): null}
             <StyledFormInput
             	{...field}
             	name={name}
             	type={type}
             />
+            {(() => {
+                if (meta.touched && meta.error) {
+                    return <FormError text={meta.error}></FormError>
+                } else if (meta.touched && meta.name != "") {
+                    return <FormSuccess />
+                } else {
+                    return null
+                }
+            })()}
         </>
     )
 }

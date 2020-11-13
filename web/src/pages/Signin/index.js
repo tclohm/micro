@@ -32,7 +32,7 @@ import FormSuccess from "../../components/FormSuccess";
 import FormError from "../../components/FormError";
 
 const SigninSchema = Yup.object().shape({
-  emailOrUsername: Yup.string().required("Email or username required"),
+  authName: Yup.string().required("Email or username required"),
   password: Yup.string().required("Password is required"),
 });
 
