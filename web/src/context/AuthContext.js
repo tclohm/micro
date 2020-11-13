@@ -22,7 +22,7 @@ const AuthProvider = ({ children }) => {
 		localStorage.setItem('userInfo', JSON.stringify(userInfo));
 		localStorage.setItem('expiresAt', expiresAt);
 
-		setAuthenticated({
+		setAuthState({
 			token,
 			userInfo,
 			expiresAt
@@ -33,7 +33,7 @@ const AuthProvider = ({ children }) => {
 		localStorage.removeItem('token');
 		localStorage.removeItem('userInfo');
 		localStorage.removeItem('expiresAt');
-		setAuthenticated({});
+		setAuthState({});
 		history.push('/');
 	};
 
