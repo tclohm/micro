@@ -10,7 +10,6 @@ import { AuthContext } from "../../context/AuthContext";
 
 // MARK: -- Third Party, checks
 import { useMutation } from "@apollo/react-hooks";
-import { gql } from "apollo-boost";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
 
@@ -33,23 +32,6 @@ const SigninSchema = Yup.object().shape({
   emailOrUsername: Yup.string().required("Email or username required"),
   password: Yup.string().required("Password is required")
 });
-
-const SIGNIN = gql`
-  mutation Authenticate(
-    $email: String!
-    $password: String!
-  ) {
-    createAccount(
-      email: $email
-      password: $password
-    ) {
-      message
-      refreshToken
-      accountId
-      expiresAt
-    }
-  }
-`;
 
 const ProcessSignin = ({ signinData }) => {
   const authContext = useContext(AuthContext);
