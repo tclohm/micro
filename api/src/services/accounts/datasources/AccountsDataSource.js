@@ -107,18 +107,18 @@ class AccountsDataSource extends DataSource {
 				const savedToken = await tokenData.save();
 
 				if (!savedToken) {
-
 					throw new ApolloError(
 						"Token creation error"
 					);
-
 				}
+
+				const { refreshToken, accountId } = savedToken;
 				
 				return { 
 					message: "Account created!", 
-					refreshToken: token, 
-					accountId: _id,
-					expiresAt 
+					refreshToken, 
+					accountId,
+					expiresAt,
 				};
 
 				
@@ -157,7 +157,6 @@ class AccountsDataSource extends DataSource {
 				const { password, ...rest } = account;
 				const userInfo = Object.assign({}, { ...rest });
 				const token = createToken(userInfo._doc);
-				const expiresAt = getDatePlusThirtyMinutes();
 
 				const updatedAccount = await this.Account.findOneAndUpdate(
 					{ _id: account._id },
@@ -175,7 +174,14 @@ class AccountsDataSource extends DataSource {
 					{ accountId: userInfo._doc._id }
 				);
 
-				return savedRefToken;
+				const { refreshToken, expiresAt, accountId } = savedRefToken;
+
+				return {
+					message: "Account Updated",
+					refreshToken,
+					accountId,
+					expiresAt
+				}
 
 			} else {
 

@@ -2,8 +2,6 @@ import getToken from "../lib/getToken";
 
 (async () => {
 	const [email, password] = process.argv.slice(2)
-	const accessToken = await getToken(email, password).catch(error => {
-		console.log(error)
-	});
+	const accessToken = getToken(email, password)
 	console.log(accessToken);
 })();

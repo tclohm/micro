@@ -1,53 +1,34 @@
-import { GraphQLObjectType } from "graphql";
-import Account from "../models/Account";
-import Token from "../models/Token";
-import { createToken, hashPassword, verifyPassword, getRefreshToken, getDatePlusThirtyMinutes } from "../config/util";
+import { gql } from "apollo-server";
+import request from "request";
+import util from "util";
 
-const saveRefreshToken = async (refreshToken, accountId) => {
-	
-	try {
-		const storedRefreshToken = new Token({
-			refreshToken,
-			account: accountId,
-			expiresAt: getDatePlusThirtyMinutes()
-		});
+const requestPromise = util.promisify(request);
 
-		return await storedRefreshToken.save();
-	} catch (err) {
-		console.error(err);
-		return err;
-	}
-};
+export default async function (email, password) {
+	const query = { 
+				"query": 
+				`mutation { authentication(email: ${email}, password: ${password})`
+			}
+	const options = {
+		method: "POST",
+		url: `http://localhost:${process.env.PORT}/graphql`,
+		headers: { "content-type": "application/graphql" },
+		body: query
+	};
 
-export default async function(email, password) {
-	console.log(email, password)
-	try {
-		const existingAccount = await Account.findOne({ email }).exec();
+	const response = await requestPromise(options).catch(error => {
+		throw new Error(error);
+	});
 
-		console.log(existingAccount)
-		
-		if (!existingAccount) {
-			console.error("Could not find account");
-		}
+	console.log(response.body);
 
-		const passwordValid = await verifyPassword(password, existingAccount.password);
-
-		if (passwordValid) {
-			const { created_at, ...rest } = existingAccount;
-			const userInfo = Object.assign({}, { ...rest });
-
-			console.log(userInfo);
-
-			const token = createToken(userInfo);
-			const expiresAt = getDatePlusThirtyMinutes()
-
-			const refreshToken = getRefreshToken();
-
-			await saveRefreshToken(refreshToken, userInfo._id);
-
-			console.log(refreshToken)
-		}
-	} catch (err) {
-		console.error(err);
-	}
 }
+
+
+// const token = gql`
+// 	mutation Authenticate($email: email, $password: password) {
+// 		authenticate(email: $email, password: $password) {
+// 			refreshToken
+// 		}
+// 	}
+// `;
