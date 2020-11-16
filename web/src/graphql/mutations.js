@@ -12,8 +12,8 @@ export const SIGNUP = gql`
 `;
 
 export const CREATEPROFILE = gql`
-	mutation CreateProfile($accountId: String!, $description: String, $fullName: String, $username: String!) {
-		createProfile(accountId: $accountId, description: $description, fullName: $fullName, username: $username) {
+	mutation CreateProfile($data: CreateProfileInput) {
+		createProfile(data: $data) {
 			id
 			account
 			avatar
@@ -24,10 +24,9 @@ export const CREATEPROFILE = gql`
 	}
 `;
 
-
 export const SIGNIN = gql`
-	mutation Signin($auth: String, $password: String) {
-		authenticate(auth: $auth, password: $password) {
+	mutation SIGNIN($data: CreateAccountInput!) {
+		authenticate(data: $data) {
 			message
 			refreshToken
 			accountId

@@ -1,4 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
+import client from "../graphql/apollo";
+import { GET_VIEWER } from "../graphql/queries";
 import history from "../routes/history";
 
 const AuthContext = createContext();
@@ -7,6 +9,8 @@ const { Provider } = AuthContext;
 const AuthProvider = ({ children }) => {
 	// MARK: -- is the user authenticated? 
 	//		 -- is the app checking whether the user is authenticated?
+	const [viewerQuery, setViewerQuery] = useState(null);
+
 	const token = localStorage.getItem("token");
 	const userInfo = localStorage.getItem("userInfo");
 	const expiresAt = localStorage.getItem("expiresAt");
@@ -15,7 +19,7 @@ const AuthProvider = ({ children }) => {
 		token,
 		userInfo: userInfo ? JSON.parse(userInfo) : {},
 		expiresAt
-	})
+	});
 
 	const setAuthInfo = ({ token, userInfo, expiresAt }) => {
 		localStorage.setItem('token', token);
