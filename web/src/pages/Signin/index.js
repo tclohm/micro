@@ -32,7 +32,7 @@ import FormSuccess from "../../components/FormSuccess";
 import FormError from "../../components/FormError";
 
 const SigninSchema = Yup.object().shape({
-  authName: Yup.string().required("Email or username required"),
+  auth: Yup.string().required("Email or username required"),
   password: Yup.string().required("Password is required"),
 });
 
@@ -98,22 +98,29 @@ const SigninPage = () => {
           <AuthForm>
             <Formik
               initialValues={{
-                authName: "",
+                auth: "",
                 password: "",
               }}
               onSubmit={(values) => {
-                const { authName, password } = values;
-                console.log(authName, password);
+                const { auth, password } = values;
+                signin({
+                  variables: { 
+                    data: {
+                      email: auth, password: password
+                    }
+                  }
+                })
               }}
               validationSchema={SigninSchema}
             >
+              {() => (
               <Form>
-                {data && <FormSuccess text={data.signin.message} />}
-                {error && <FormError text={error.message} />}
+                {data && ( <FormSuccess text={data.authenticate.message} /> ) }
+                {error && ( <FormError text={error.message} /> ) }
                 <input type="hidden" name="remember" value="true" />
                 <FormField inputWidth="100%">
                   <label for="user_email">Email or Username</label>
-                  <FormInput type="text" name="authName" />
+                  <FormInput type="text" name="auth" />
                 </FormField>
                 <FormField inputWidth="100%">
                   <label for="user_login">Password</label>
@@ -126,10 +133,12 @@ const SigninPage = () => {
                   inputBorder="2px solid #FFC843"
                   inputHoverColor="#F7D380"
                   type="submit"
+                  loading={loading}
                 >
                   Sign In
                 </AccentButton>
               </Form>
+              )}
             </Formik>
           </AuthForm>
         </AuthContent>

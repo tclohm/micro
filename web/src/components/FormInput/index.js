@@ -30,7 +30,7 @@ const FormInput = ({
             {(() => {
                 if (meta.touched && meta.error) {
                     return <FormError text={meta.error}></FormError>
-                } else if (meta.touched && meta.name != "") {
+                } else if (meta.touched && meta.name !== "") {
                     return <FormSuccess />
                 } else {
                     return null

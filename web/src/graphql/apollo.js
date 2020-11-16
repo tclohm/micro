@@ -3,7 +3,7 @@ import { ApolloProvider } from "@apollo/react-hooks";
 import ApolloClient from "apollo-boost";
 
 const client = new ApolloClient({
-	uri: process.env.REACT_APP_GRAPHQL_URI,
+	uri: process.env.REACT_APP_GRAPHQL_ENDPOINT,
 	request: operation => {
 		const token = localStorage.getItem("token");
 		if ( token ) {
