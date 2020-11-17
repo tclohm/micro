@@ -41,10 +41,10 @@ const ProcessSignin = ({ signinData }) => {
   const [redirectOnSignin, setRedirectOnSignin] = useState(false);
 
   useEffect(() => {
-    const { signin } = signinData;
-    authContext.setAuthState(signin);
+    const { authenticate } = signinData;
+    authContext.setAuthState(authenticate);
     setRedirectOnSignin(true);
-  }, [authContext, signinData]);
+  }, [signinData]);
 
   return <>{redirectOnSignin && <Redirect to="/" />}</>;
 };

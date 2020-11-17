@@ -177,7 +177,7 @@ class AccountsDataSource extends DataSource {
 				const { refreshToken, expiresAt, accountId } = savedRefToken;
 
 				return {
-					message: "Account Updated",
+					message: "Signed In",
 					refreshToken,
 					accountId,
 					expiresAt

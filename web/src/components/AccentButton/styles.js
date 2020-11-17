@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 export const StyledAccentButton = styled(Button)`
   display: inline-block;
-  border-radius: 0.3rem;
+  border-radius: ${props => props.inputRadius || '0.3rem' };
   height: ${props => props.inputHeight || 'auto'};
   width: ${props => props.inputWidth || 'auto'};
   padding: ${props => props.inputPadding || '0.5rem 0'};
