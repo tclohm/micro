@@ -14,7 +14,7 @@ const NavBar = () => {
 	const { isAuthenticated } = authContext;
 
 	useEffect(() => {
-		console.log(isAuthenticated());
+		isAuthenticated();
 	}, [isAuthenticated])
 
 
@@ -58,7 +58,7 @@ const NavBar = () => {
 					<>
 						<AccentButton
 							inputHeight="2.5rem"
-		            		inputWidth="2.5rem"
+		            		inputWidth="5rem"
 		            		inputColor="gray"
 		            		inputBGColor="#FFF"
 		            		inputBorder="white"
