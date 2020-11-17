@@ -12,30 +12,25 @@ const AuthProvider = ({ children }) => {
 	const [viewerQuery, setViewerQuery] = useState(null);
 
 	const token = localStorage.getItem("token");
-	const userInfo = localStorage.getItem("userInfo");
 	const expiresAt = localStorage.getItem("expiresAt");
 
 	const [authState, setAuthState] = useState({
 		token,
-		userInfo: userInfo ? JSON.parse(userInfo) : {},
 		expiresAt
 	});
 
-	const setAuthInfo = ({ token, userInfo, expiresAt }) => {
-		localStorage.setItem('token', token);
-		localStorage.setItem('userInfo', JSON.stringify(userInfo));
+	const setAuthInfo = ({ refreshToken, expiresAt }) => {
+		localStorage.setItem('token', refreshToken);
 		localStorage.setItem('expiresAt', expiresAt);
 
 		setAuthState({
 			token,
-			userInfo,
 			expiresAt
 		});
 	};
 
 	const logout = () => {
 		localStorage.removeItem('token');
-		localStorage.removeItem('userInfo');
 		localStorage.removeItem('expiresAt');
 		setAuthState({});
 		history.push('/');
@@ -45,8 +40,9 @@ const AuthProvider = ({ children }) => {
 		if (!authState.expiresAt) {
 			return false;
 		}
+		console.log(new Date().getTime() / 1000, Number(authState.expiresAt))
 		return (
-			new Date().getTime() / 1000 < authState.expiresAt
+			new Date().getTime() / 1000 < Number(authState.expiresAt)
 		);
 	};
 

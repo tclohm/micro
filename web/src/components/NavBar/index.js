@@ -1,11 +1,23 @@
 import { Link } from "react-router-dom";
 import { Box, Heading } from "grommet";
-import React from "react";
+import React, { useEffect, useContext } from "react";
 
 import AccentAnchor from "../AccentAnchor";
 import AccentButton from "../AccentButton";
 
+// MARK: -- Authentication
+import { AuthContext } from "../../context/AuthContext";
+
 const NavBar = () => {
+
+	const authContext = useContext(AuthContext);
+	const { isAuthenticated } = authContext;
+
+	useEffect(() => {
+		console.log(isAuthenticated());
+	}, [isAuthenticated])
+
+
 	return (
 		<header>
 			<Box
@@ -28,31 +40,49 @@ const NavBar = () => {
 				<Box
 					direction="row"
 					>
-					<AccentButton
-						inputHeight="2.5rem"
-	            		inputWidth="5rem"
-	            		inputColor="gray"
-	            		inputBGColor="#FFF"
-	            		inputBorder="white"
-	            		inputHoverColor="white"
-	            		border={{
-	            			color: "white"
-	            		}}
-					>
-						<Link to="/session/new">Sign in</Link>
-					</AccentButton>
-					<Link to="/signup/new">
+					{
+						isAuthenticated() ?
+							<AccentButton
+								inputRadius="2rem"
+								inputHeight="2.5rem"
+			            		inputWidth="2.5rem"
+			            		inputColor="black"
+			            		inputBGColor="white"
+			            		inputBorder="white"
+			            		inputHoverColor="white"
+
+							>
+							<i className="fas fa-user-circle fa-2x"></i>
+							</AccentButton>
+					:
+					<>
 						<AccentButton
 							inputHeight="2.5rem"
-		            		inputWidth="5rem"
-		            		inputColor="white"
-		            		inputBGColor="#FFC843"
-		            		inputBorder="#FFC843"
-		            		inputHoverColor="#F7D380"
+		            		inputWidth="2.5rem"
+		            		inputColor="gray"
+		            		inputBGColor="#FFF"
+		            		inputBorder="white"
+		            		inputHoverColor="white"
+		            		border={{
+		            			color: "black"
+		            		}}
 						>
-						Sign up
+							<Link to="/session/new">Sign in</Link>
 						</AccentButton>
-					</Link>
+						<Link to="/signup/new">
+							<AccentButton
+									inputHeight="2.5rem"
+				            		inputWidth="5rem"
+				            		inputColor="white"
+				            		inputBGColor="#FFC843"
+				            		inputBorder="#FFC843"
+				            		inputHoverColor="#F7D380"
+								>
+								Sign up
+							</AccentButton>
+						</Link>
+					</>
+					}
 				</Box>
 			</Box>
 		</header>

@@ -6,6 +6,7 @@ import AccentButton from "../../components/AccentButton";
 import MainLayout from "../../layouts/MainLayout";
 
 const Index = () => {
+
 	return (
 		<MainLayout>
 			<Box 
