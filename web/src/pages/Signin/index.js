@@ -1,6 +1,5 @@
 // MARK: -- Routing
 import { Link, Redirect } from "react-router-dom";
-import history from "../../routes/history";
 
 // MARK: -- React
 import React, { useContext, useState, useEffect } from "react";
@@ -44,7 +43,7 @@ const ProcessSignin = ({ signinData }) => {
     const { authenticate } = signinData;
     authContext.setAuthState(authenticate);
     setRedirectOnSignin(true);
-  }, [signinData]);
+  }, [signinData, authContext]);
 
   return <>{redirectOnSignin && <Redirect to="/" />}</>;
 };

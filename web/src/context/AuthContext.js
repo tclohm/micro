@@ -40,9 +40,9 @@ const AuthProvider = ({ children }) => {
 		if (!authState.expiresAt) {
 			return false;
 		}
-		console.log(new Date().getTime() / 1000, Number(authState.expiresAt))
+		
 		return (
-			new Date().getTime() / 1000 < Number(authState.expiresAt)
+			Number( new Date().getTime() / 1000 ) < Number( authState.expiresAt  / 1000 )
 		);
 	};
 
