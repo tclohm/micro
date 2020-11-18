@@ -1,23 +1,12 @@
 import { Link } from "react-router-dom";
 import { Box, Heading } from "grommet";
-import React, { useEffect, useContext } from "react";
+import React from "react";
 
 import AccentAnchor from "../AccentAnchor";
 import AccentButton from "../AccentButton";
 
-// MARK: -- Authentication
-import { AuthContext } from "../../context/AuthContext";
-
-const NavBar = () => {
-
-	const authContext = useContext(AuthContext);
-	const { isAuthenticated } = authContext;
-
-	useEffect(() => {
-		isAuthenticated();
-	}, [isAuthenticated])
-
-
+const NavBar = ({ isAuthenticated }) => {
+	
 	return (
 		<header>
 			<Box
@@ -41,7 +30,7 @@ const NavBar = () => {
 					direction="row"
 					>
 					{
-						isAuthenticated() ?
+						isAuthenticated ?
 							<AccentButton
 								inputRadius="2rem"
 								inputHeight="2.5rem"

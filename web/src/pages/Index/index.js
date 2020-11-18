@@ -1,14 +1,27 @@
 import { Link } from "react-router-dom";
 import { Box, Image, Heading } from "grommet";
-import React from "react";
+import React, { useContext, useEffect } from "react";
 
 import AccentButton from "../../components/AccentButton";
 import MainLayout from "../../layouts/MainLayout";
 
-const Index = () => {
+// MARK: -- Authentication
+import { AuthContext } from "../../context/AuthContext";
 
+const Index = () => {
+	
+	const authContext = useContext(AuthContext);
+	const { isAuthenticated } = authContext;
+
+	useEffect(() => {
+		isAuthenticated();
+	}, [isAuthenticated])
+	
 	return (
 		<MainLayout>
+			{ isAuthenticated() ? 
+			<p>Authenticated</p>
+			:
 			<Box 
 				align="center" 
 				margin={{ top: "none" }}
@@ -40,6 +53,7 @@ const Index = () => {
 					<Image fit="contain" src={process.env.PUBLIC_URL + 'placeholder.png'} />
 				</Box>
 			</Box>
+			}
 		</MainLayout>
 	);
 };
