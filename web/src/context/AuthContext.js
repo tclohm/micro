@@ -55,15 +55,17 @@ const AuthProvider = ({ children }) => {
 		return _getTokenSilently(data)
 	}
 
-	return (
-		<Provider 
-			value={{
+	const value = {
 				authState,
 				getToken: (...p) => getTokenSilently(...p),
 				setAuthState: authInfo => setAuthInfo(authInfo),
 				logout,
 				isAuthenticated
-			}}
+			}
+
+	return (
+		<Provider 
+			value={value}
 		>
 			{children}
 		</Provider>
