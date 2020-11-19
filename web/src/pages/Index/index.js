@@ -3,6 +3,7 @@ import { Box, Image, Heading } from "grommet";
 import React, { useContext, useEffect } from "react";
 
 import AccentButton from "../../components/AccentButton";
+
 import MainLayout from "../../layouts/MainLayout";
 
 // MARK: -- Authentication
@@ -20,7 +21,9 @@ const Index = () => {
 	return (
 		<MainLayout>
 			{ isAuthenticated() ? 
-			<p>Authenticated</p>
+			<>
+				<p>Authenticated</p>
+			</>
 			:
 			<Box 
 				align="center" 

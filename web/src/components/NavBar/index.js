@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
-import { Box, Heading } from "grommet";
+import { Box, Heading, DropButton } from "grommet";
 import React from "react";
 
 import AccentAnchor from "../AccentAnchor";
 import AccentButton from "../AccentButton";
+import SettingSidebar from "../SettingSidebar";
 
 const NavBar = ({ isAuthenticated }) => {
 	
@@ -31,18 +32,21 @@ const NavBar = ({ isAuthenticated }) => {
 					>
 					{
 						isAuthenticated ?
-							<AccentButton
-								inputRadius="2rem"
-								inputHeight="2.5rem"
-			            		inputWidth="2.5rem"
-			            		inputColor="black"
-			            		inputBGColor="white"
-			            		inputBorder="white"
-			            		inputHoverColor="white"
-
-							>
-							<i className="fas fa-user-circle fa-2x"></i>
-							</AccentButton>
+							<>
+								<DropButton
+									margin={{
+										right: "1rem"
+									}}
+									dropAlign={{
+										top: 'bottom'
+									}}
+									dropContent={
+										<SettingSidebar />
+									}
+								>
+								<i className="fas fa-user-circle fa-2x"></i>
+								</DropButton>
+							</>
 					:
 					<>
 						<AccentButton
