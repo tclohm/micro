@@ -3,8 +3,8 @@ import server from "./config/apollo";
 
 const port = process.env.PORT
 
-server.applyMiddleware({ app, cors: false })
+server.applyMiddleware({ app, cors: false });
 
 app.listen({ port }, () => {
-	console.log(` ✔︎ server is up ${port}${server.graphqlPath}`)
+	console.log(` ✔︎ server is up ${port}${server.graphqlPath}`);
 })
