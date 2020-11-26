@@ -1,4 +1,4 @@
-import { ApolloError } from "apollo-server";
+import { ApolloError, AuthenticationError } from "apollo-server";
 import { GraphQLScalarType } from "graphql";
 import { isISO8601 } from "validator";
 
