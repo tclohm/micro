@@ -1,6 +1,7 @@
 import express from "express";
 import jwt from "express-jwt";
 import cors from "cors";
+import helmet from "helmet";
 
 const app = express();
 
@@ -11,6 +12,9 @@ const checkJWT = jwt({
 	algorithms: ['HS256'],
 	credentialsRequired: false
 });
+
+// MARK: -- helmet
+app.use(helmet());
 
 
 // MARK: -- manage auth access
