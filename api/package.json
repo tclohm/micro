@@ -11,8 +11,8 @@
 		"dev:gateway": "wait-on tcp:4001 tcp:4002 tcp:4003 && nodemon -r dotenv/config -r esm ./src/index.js"
 	},
 	"dependencies": {
-		"@apollo/federation": "^0.20.4",
-		"@apollo/gateway": "^0.20.4",
+		"@apollo/federation": "0.20.6",
+		"@apollo/gateway": "0.21.3",
 		"@prisma/client": "^2.6.2",
 		"apollo-datasource": "^0.7.2",
 		"apollo-server": "^2.18.1",
@@ -36,7 +36,8 @@
 		"nodemon": "^2.0.4",
 		"rand-token": "^1.0.1",
 		"validator": "^13.1.17",
-		"wait-on": "^5.2.0"
+		"wait-on": "^5.2.0",
+		"yargs": "^16.1.0"
 	},
 	"devDependencies": {
 		"@prisma/cli": "^2.6.2",
