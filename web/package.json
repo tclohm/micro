@@ -12,8 +12,6 @@
     "axios": "^0.21.0",
     "formik": "^2.2.4",
     "graphql": "^15.3.0",
-    "grommet": "^2.15.2",
-    "grommet-icons": "^4.5.0",
     "history": "^5.0.0",
     "jest": "^24.9.0",
     "react": "^17.0.0",

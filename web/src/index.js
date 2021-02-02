@@ -1,5 +1,4 @@
 import { ApolloProvider } from "@apollo/client";
-import { Grommet } from "grommet";
 import { BrowserRouter as Router } from "react-router-dom";
 
 import React from "react";
@@ -17,11 +16,9 @@ const App = () => (
 	<AuthProvider>
 		<ApolloProvider client={client}>
 			<GlobalStyle />
-			<Grommet theme={theme}>
-				<Router history={history}>
-					<Routes />
-				</Router>
-			</Grommet>
+			<Router history={history}>
+				<Routes />
+			</Router>
 		</ApolloProvider>
 	</AuthProvider>
 );

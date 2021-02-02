@@ -1,32 +1,17 @@
 import { Link } from "react-router-dom";
 import React from "react";
-import Container from "../../components/Container";
-import AuthSidebar from "../../components/AuthSideBar";
-import SidebarContent from "../../components/SidebarContent";
-import Artwork from "../../components/Artwork";
-import Header from "../../components/Header";
-import Logo from "../../components/Logo";
-import Subtitle from "../../components/Subtitle";
 
 
-const AuthenticationLayout = ({ children, sidebarColor, subtitleColor }) => {
+const AuthenticationLayout = ({ children }) => {
 
 	return (
-		<Container>
-			<AuthSidebar inputSidebarColor={sidebarColor}>
-				<SidebarContent>
-					<Header>
-						<Link to="/"><Logo>microfails</Logo></Link>
-		    			<Subtitle inputFontColor={subtitleColor}>
-		    			Fail. Together. 
-		    				<span role="img" aria-label="emoji facepalm">🤦‍♀</span>
-		    			</Subtitle>
-					</Header>
-					<Artwork />
-				</SidebarContent>
-	    	</AuthSidebar>
+		<div>
+			<Link to="/">microfails</Link>
+			<p>Fail. Together. 
+				<span role="img" aria-label="emoji facepalm">🤦‍♀</span>
+			</p>
 			<main>{children}</main>
-		</Container>
+		</div>
   )
 }
 
