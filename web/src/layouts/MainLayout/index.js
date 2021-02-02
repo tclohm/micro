@@ -2,7 +2,7 @@ import { Box } from "grommet";
 import React, { useContext, useEffect } from "react";
 
 import Container from "../../components/Container";
-import Navbar from "../../components/Navbar";
+import Navbar from "../../components/NavBar";
 import Footer from "../../components/Footer";
 
 // MARK: -- Authentication
