@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import React from "react";
 import Container from "../../components/Container";
-import AuthSidebar from "../../components/AuthSidebar";
+import AuthSidebar from "../../components/AuthSideBar";
 import SidebarContent from "../../components/SidebarContent";
 import Artwork from "../../components/Artwork";
 import Header from "../../components/Header";
